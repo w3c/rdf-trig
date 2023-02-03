@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>RDF 1.2 TriG</title>
   <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
@@ -20,13 +20,14 @@
       previousMaturity:     "REC",
       prevRecShortname:     "trig",
 
-      editors:  [
-        { name: "Gavin Carothers", url: "https://gavin.carothers.name/",
-          company: "Lex Machina", companyURL: "https://lexmachina.com/" },
-        { name: "Andy Seaborne" ,
-          company: "Apache Software Foundation",
-          companyURL: "http://www.apache.org/"
-        }
+      editors: [
+        { name: "Gregg Kellogg", w3cid: "44770" },
+        { name: "Dominik Tomaszuk", w3cid: "44239"},
+      ],
+
+      formerEditors:  [
+        { name: "Gavin Carothers" },
+        { name: "Andy Seaborne" }
       ],
 
       authors:  [
@@ -45,7 +46,7 @@
     };
   </script>
 
- <style type="text/css">
+ <style>
     /* Style Turtle script blocks to be visable */
     pre.example script {
         display:block;
@@ -767,17 +768,33 @@
 
 <section id="acknowledgements" class="informative">
   <h2>Acknowledgements</h2>
-  <p>The editors gratefully acknowledge the work of Chris Bizer and
-    Richard Cyganiak in creating the original TriG specification.
-    Valuable contributions to this version were made by Gregg Kellogg, Eric
-    Prud'hommeaux and Sandro Hawke. </p>
-  <p>The document was improved through the review process by the wider community.</p>
+
+  <section class="informative">
+    <h3>Acknowledgements for RDF 1.1</h3>
+    <p>The editors gratefully acknowledge the work of Chris Bizer and
+      Richard Cyganiak in creating the original TriG specification.
+      Valuable contributions to this version were made by Gregg Kellogg, Eric
+      Prud'hommeaux and Sandro Hawke. </p>
+    <p>The document was improved through the review process by the wider community.</p>
+  </section>
+
+  <section class="informative">
+    <h3>Acknowledgements for RDF 1.2</h3>
+
+    <p>In addition to the editors, the following people have contributed to this specification:
+      <span id="gh-contributors"></span>
+    </p>
+
+    <p data-include="common/participants.html"></p>
+
+    <p class="ednote">Recognize members of the Task Force? Not an easy to find list of contributors.</p>
+  </section>
 </section>
 
 <section id="sec-differences" class="appendix informative">
- <h2>Differences from Previous TriG</h2>
+ <h2>Changes between the earlier version and RDF 1.1 Recommendation</h2>
  <p>This section describes the main differences between TriG, as
-   defined in this document, and earlier forms.
+   defined in RDF 1.1, and earlier forms.
    <ul>
     <li>Syntax is aligned to the
       Turtle [[RDF12-TURTLE]] recommendation
@@ -794,14 +811,18 @@
     <li>Keywords <code>BASE</code>,
       <code>PREFIX</code> as in [[RDF12-TURTLE]].</li>
     <li>The optional <code>GRAPH</code> keyword is allowed to aid
-      SPARQL alignment.
+      SPARQL alignment.</li>
+    <li><a href="https://lists.w3.org/Archives/Public/public-rdf-comments/2014Feb/0018.html">Error</a>
+ in grammar productions [24] and [25] fixed.</li>
   </ul>
 </section>
 
-<section id="sec-changes"  class="appendix">
- <h2>Changes since the last publication of this document</h2>
- <p><a href="https://lists.w3.org/Archives/Public/public-rdf-comments/2014Feb/0018.html">Error</a>
- in grammar productions [24] and [25] fixed.</p>
+<section id="sec-changes" class="appendix informative">
+  <h2>Changes between RDF 1.1 and RDF 1.2</h2>
+
+  <ul>
+    
+  </ul>
 </section>
 
 <section id="sec-mediaReg" class="appendix">
