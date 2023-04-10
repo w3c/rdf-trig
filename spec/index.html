@@ -120,10 +120,10 @@
   <section id="sec-triple-statements">
     <h3>Triple Statements</h3>
     <p>As TriG is an extention of the Turtle language it allows for any constructs from the
-      <a data-cite="TURTLE#language-features">Turtle language</a>.
-      <a data-cite="TURTLE#simple-triples">Simple Triples</a>,
-      <a data-cite="TURTLE#predicate-lists">Predicate Lists</a>,
-      and <a data-cite="TURTLE#object-lists">Object Lists</a>
+      <a data-cite="RDF12-TURTLE#language-features">Turtle language</a>.
+      <a data-cite="RDF12-TURTLE#simple-triples">Simple Triples</a>,
+      <a data-cite="RDF12-TURTLE#predicate-lists">Predicate Lists</a>,
+      and <a data-cite="RDF12-TURTLE#object-lists">Object Lists</a>
       can all be used either inside a graph statement, or on their own as in a Turtle document.
       When outside a graph statement, the triples are considered to be part of the default graph
       of the RDF Dataset.</p>
@@ -505,9 +505,9 @@
       All Production labels consisting of only a number reference the production
       with that number in the Turtle grammar [[RDF12-TURTLE]].
       Production labels consisting of a number and a final 's',
-      e.g. [<a data-cite="SPARQL12-QUERY#rRDFLiteral"><span class="prodNo">60s</span></a>],
+      e.g. [<a data-cite="?SPARQL12-QUERY#rRDFLiteral"><span class="prodNo">60s</span></a>],
       reference the production with that number in the document
-      [[[SPARQL12-QUERY]]] [[SPARQL12-QUERY]].
+      [[[?SPARQL12-QUERY]]] [[?SPARQL12-QUERY]].
     </p>
 
     <div>
@@ -566,7 +566,7 @@
           match the pattern for <a href="#grammar-production-LANGTAG">LANGTAG</a>,
           though neither "<code class="grammar-literal">prefix</code>"
           nor "<code class="grammar-literal">base</code>"
-          are <a data-cite="LANG-SUBTAG-REGISTRY#">registered language subtags</a>.
+          are <a data-cite="?LANG-SUBTAG-REGISTRY#">registered language subtags</a>.
           This specification does not define whether a quoted literal followed by
           either of these tokens (e.g. <code>"Z"@base</code>) is in the TriG language.
         </li>
@@ -765,12 +765,13 @@
     </section>
   </section>
 </section>
-<section id="privacy-considerations">
+
+<section id="privacy-considerations" class="appendix informative">
   <h2>Privacy Considerations</h2>
   <p class="ednote">TODO</p>  
 </section>
 
-<section id="security">
+<section id="security" class="appendix informative">
   <h2>Security Considerations</h2>
 
   <p>The <a href="#grammar-production-STRING_LITERAL_SINGLE_QUOTE">STRING_LITERAL_SINGLE_QUOTE</a>,
@@ -805,13 +806,13 @@
     or using unescaped characters,
     SHOULD use warnings and other appropriate means to limit the possibility
     that malignant strings might be used to mislead the reader.
-    The security considerations in the media type registration for XML ([[!RFC3023]] section 10)
+    The security considerations in the media type registration for XML ([[RFC3023]] section 10)
     provide additional guidance around the expression of arbitrary data and markup.</p>
 
   <p>TriG uses <a data-cite="RDF12-CONCEPTS#dfn-iri">IRIs</a> as term identifiers.
     Applications interpreting data expressed in TriG SHOULD address the security issues of
-    [[[!RFC3987]]] [[!RFC3987]] Section 8, as well as
-    [[[!RFC3986]]] [[!RFC3986]] Section 7.</p>
+    [[[RFC3987]]] [[RFC3987]] Section 8, as well as
+    [[[RFC3986]]] [[RFC3986]] Section 7.</p>
 
   <p>Multiple <a data-cite="RDF12-CONCEPTS#dfn-iri">IRIs</a> may have the same appearance.
     Characters in different scripts may look similar (for instance,
@@ -826,67 +827,6 @@
     Further information about matching visually similar characters can be found
     in [[[UNICODE-SECURITY]]] [[UNICODE-SECURITY]] and
     [[[RFC3987]]] [[RFC3987]] Section 8.</p>
-
-</section>
-
-<section id="Acknowledgments" class="informative">
-  <h2>Acknowledgments</h2>
-
-  <section class="informative">
-    <h3>Acknowledgments for RDF 1.1</h3>
-    <p>The editors gratefully acknowledge the work of Chris Bizer and
-      Richard Cyganiak in creating the original TriG specification.
-      Valuable contributions to this version were made by Gregg Kellogg, Eric
-      Prud'hommeaux and Sandro Hawke. </p>
-    <p>The document was improved through the review process by the wider community.</p>
-  </section>
-
-  <section class="informative">
-    <h3>Acknowledgments for RDF 1.2</h3>
-
-    <p>In addition to the editors, the following people have contributed to this specification:
-      <span id="gh-contributors"></span>
-    </p>
-
-    <p data-include="common/participants.html"></p>
-
-    <p class="ednote">Recognize members of the Task Force? Not an easy to find list of contributors.</p>
-  </section>
-</section>
-
-<section id="sec-differences" class="appendix informative">
- <h2>Changes between the earlier version and RDF 1.1 Recommendation</h2>
- <p>This section describes the main differences between TriG, as
-   defined in RDF 1.1, and earlier forms.
-   <ul>
-    <li>Syntax is aligned to the
-      Turtle [[RDF12-TURTLE]] recommendation
-      for RDF terms.</li>
-    <li>Graph labels can be blank nodes.</li>
-    <li>The default graph, or sections of the default graph, do not
-      need to be enclosed in <code>{</code> ... <code>}</code>.</li>
-    <li>No support for optional <code>=</code> graph naming operator
-      or optional "." after each graph.</li>
-    <li>Graph labels do not have to be unique within a TriG
-        document. Reusing a graph label causes all the triples
-      for that graph to be included in the resulting graph.
-      Sections with the same label are combined by set union.</li>
-    <li>Keywords <code>BASE</code>,
-      <code>PREFIX</code> as in [[RDF12-TURTLE]].</li>
-    <li>The optional <code>GRAPH</code> keyword is allowed to aid
-      SPARQL alignment.</li>
-    <li><a href="https://lists.w3.org/Archives/Public/public-rdf-comments/2014Feb/0018.html">Error</a>
- in grammar productions [24] and [25] fixed.</li>
-  </ul>
-</section>
-
-<section id="sec-changes" class="appendix informative">
-  <h2>Changes between RDF 1.1 and RDF 1.2</h2>
-
-  <ul>
-    <li>Separated <a href="#security"></a> from <a href="#sec-mediaReg"></a>
-      and updated language.</li>
-  </ul>
 </section>
 
 <section id="sec-mediaReg" class="appendix">
@@ -953,6 +893,44 @@
     <dd>The TriG specification is the product of the RDF WG.
       The W3C reserves change control over this specifications.</dd>
   </dl>
+</section>
+
+<section id="Acknowledgments" class="informative">
+  <h2>Acknowledgments</h2>
+
+  <section class="informative">
+    <h3>Acknowledgments for RDF 1.1</h3>
+    <p>The editors gratefully acknowledge the work of Chris Bizer and
+      Richard Cyganiak in creating the original TriG specification.
+      Valuable contributions to this version were made by Gregg Kellogg, Eric
+      Prud'hommeaux and Sandro Hawke. </p>
+    <p>The document was improved through the review process by the wider community.</p>
+  </section>
+
+  <section class="informative">
+    <h3>Acknowledgments for RDF 1.2</h3>
+
+    <p>In addition to the editors, the following people have contributed to this specification:
+      <span id="gh-contributors"></span>
+    </p>
+
+    <p data-include="common/participants.html"></p>
+
+    <p class="ednote">Recognize members of the Task Force? Not an easy to find list of contributors.</p>
+  </section>
+</section>
+
+<section id="sec-changes" class="appendix informative">
+  <h2>Changes between RDF 1.1 and RDF 1.2</h2>
+
+ <p>This section describes the main differences
+   from the RDF 1.1 Recommendation.</p>
+
+  <ul>
+    <li>Syntax is aligned to the Turtle [[RDF12-TURTLE]] recommendation for RDF terms.</li>
+    <li>Separated <a href="#security"></a> from <a href="#sec-mediaReg"></a>
+      and updated language.</li>
+  </ul>
 </section>
 
 <section id="index"></section>
