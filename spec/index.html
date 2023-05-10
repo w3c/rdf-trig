@@ -298,7 +298,7 @@
   <section id="sec-iri-references">
     <h3>IRI References</h3>
     <p>
-      Relative IRIs are resolved with base IRIs as per [[[!RFC3986]]] [[!RFC3986]]
+      <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI references</a> are resolved with base IRIs as per [[[!RFC3986]]] [[!RFC3986]]
       using only the basic algorithm in section 5.2.
       Neither Syntax-Based Normalization nor Scheme-Based Normalization
       (described in sections 6.2.2 and 6.2.3 of RFC3986) are performed.
@@ -308,7 +308,7 @@
     </p>
 
     <p>
-      The <code>@base</code> directive defines the Base IRI used to resolve relative IRIs
+      The <code>@base</code> directive defines the Base IRI used to resolve <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI references</a>
       per [[RFC3986]] section 5.1.1, "Base URI Embedded in Content".
       Section 5.1.2, "Base URI from the Encapsulating Entity" defines how the In-Scope
       Base IRI may come from an encapsulating document,
@@ -601,7 +601,7 @@
     <ul>
       <li id="baseURI">IRI <code class="dfn">baseURI</code>
         — When the <a href="#grammar-production-base">base production</a> is reached,
-        the second rule argument, <code>IRIREF</code>, is the base URI used for relative IRI resolution.</li>
+        the second rule argument, <code>IRIREF</code>, is the base URI used for <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI reference</a> resolution.</li>
       <li id="namespaces">Map[<a class="type prefix" href="#prefix">prefix</a> -&gt; IRI] <code class="dfn">namespaces</code>
         — The second and third rule arguments (<code>PNAME_NS</code> and <code>IRIREF</code>)
         in the <a href="#grammar-production-prefixID">prefixID production</a>
@@ -640,7 +640,7 @@
         <tr>                                  <th>                                                                                                                                       production                            </th><th>                   type            </th><th>procedure</th></tr>
       </thead>
       <tbody>
-        <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          >IRIREF                          </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, with the <a href="#numeric">numeric escape sequences</a> unescaped, to form the unicode string of the IRI. Relative IRI resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
+        <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          >IRIREF                          </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, with the <a href="#numeric">numeric escape sequences</a> unescaped, to form the unicode string of the IRI. <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI reference</a> resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
         <tr id="handle-PNAME_NS"                        ><td style="text-align:left;" rowspan="2"><a class="type string"      href="#grammar-production-PNAME_NS"                        >PNAME_NS                        </a></td><td><a href="#prefix">                         prefix      </a></td><td>When used in a <a href="#grammar-production-prefixID">prefixID</a> or <a href="#grammar-production-sparqlPrefix">sparqlPrefix</a> production, the <code>prefix</code> is the potentially empty unicode string matching the first argument of the rule is a key into the <a href="#namespaces">namespaces map</a>.</td></tr>
         <tr id="handle-PNAME-IRI"                       >                                                                                                                                                                          <td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>When used in a <a href="#grammar-production-PrefixedName">PrefixedName</a> production, the <code>iri</code> is the value in the <a href="#namespaces">namespaces map</a> corresponding to the first argument of the rule.</td></tr>
         <tr id="handle-PNAME_LN"                        ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PNAME_LN"                        >PNAME_LN                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>A potentially empty <a href="#prefix">prefix</a> is identified by the first sequence, <code>PNAME_NS</code>. The <a href="#namespaces">namespaces map</a> <em class="rfc2119">MUST</em> have a corresponding <code>namespace</code>. The unicode string of the IRI is formed by unescaping the <a href="#reserved">reserved characters</a> in the second argument, <code>PN_LOCAL</code>, and concatenating this onto the <code>namespace</code>.</td></tr>
@@ -877,7 +877,7 @@
 
     <dt>Base URI:</dt>
     <dd>The TriG base directive can change the current base URI
-      for relative IRIrefs in the language that are used sequentially
+      for <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI references</a> in the language that are used sequentially
       later in the document.</dd>
     <dt>Macintosh file type code(s):</dt>
     <dd>&quot;TEXT&quot;</dd>
