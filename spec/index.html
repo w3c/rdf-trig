@@ -56,9 +56,21 @@
     .separated tbody tr td { border: 1px solid black; text-align: center; }
     .separated tbody tr td.r { text-align: right; padding: .5em; }
     .grammar td { font-family: monospace; vertical-align: top; }
-    .grammar-literal { color: gray;}
+    .grammar-opt,
+    .grammar-alt,
+    .grammar-paren,
+    .grammar-diff,
+    .grammar-plus,
+    .grammar-star,
+    .grammar-brac { color: gray;}
+    #grammar-declaration-terminals h3 {
+      margin-top: 1em;
+    }
+    .grammar_comment { color: #A52A2A; font-style: italic; }
     .hl-bold { font-weight: bold; color: #0a3; }
-    code {color: #ff4500;}  /* Old W3C Style */
+    code { color: #ff4500; }  /* Old W3C Style */
+    var { color: #ff4500; }
+    abbr[title] {text-decoration: none;}
     @media (max-width: 850px) {
         table th, table td { font-size: 12px; padding: 3px 4px;}
     }     
@@ -73,11 +85,22 @@
 <body>
 <section id='abstract'>
   <p>This document defines a textual syntax for RDF called TriG
-  that allows an RDF dataset to be completely written in a compact and
+  that allows an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> to be completely written in a compact and
   natural text form, with abbreviations for common usage patterns and
   datatypes. TriG is an extension of the
   Turtle [[RDF12-TURTLE]] format.
   </p>
+
+  <p>RDF 1.2 TriG shares <a>quoted triples</a> with [[RDF12-TURTLE]]
+    as a fourth kind of <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF term</a>
+    which can be used as the
+    <a data-cite="RDF12-CONCEPTS#dfn-subject">subject</a> or
+    <a data-cite="RDF12-CONCEPTS#dfn-object">object</a> of another
+    <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">triple</a>,
+    making it possible to make statements about other statements.</p>
+
+  <p>RDF 1.2 TriG also shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
+    <a>quoted triples</a> to also be <a data-cite="RDF12-CONCEPTS#dfn-asserted-triple">asserted</a>.</p>
 </section>
 
 <section id='sotd'>
@@ -98,30 +121,37 @@
   RDF Concepts and Abstract Syntax document
   [[!RDF12-CONCEPTS]]. TriG is an extension of
   Turtle [[RDF12-TURTLE]], extended
-  to support representing a complete RDF Dataset.
+  to support representing a complete <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.
 </section>
 
 <section id="sec-trig-intro" class="informative">
   <h2>TriG Language</h2>
 
-  <p>A <a>TriG document</a> allows writing down an RDF Dataset in a compact textual form.
+  <p>A <a>TriG document</a> allows writing down an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> in a compact textual form.
   It consists of a sequence of directives, triple statements,
   graph statements which contain triple-generating statements and optional blank lines.
   Comments may be given after a <code>#</code> that is not part of another
   lexical token and continue to the end of the line.</p>
 
-  <p>Graph statements are a pair of an IRI or blank node label and a group of triple statements
+  <p>Graph statements are a pair of an
+  <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> or
+  <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>
+  and a group of triple statements
   surrounded by <code>{}</code>.
-  The IRI or blank node label of the graph statement may be used in another graph statement
+  The <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> or
+  <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>
+  of the graph statement may be used in another graph statement
   which implies taking the union of the tripes generated
   by each graph statement.
-  An IRI or blank node label used as a graph label may also reoccur
+  An <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> or
+  <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>
+  used as a graph label may also reoccur
   as part of any triple statement.
   Optionally a graph statement may not not be labeled with an IRI.
-  Such a graph statement corresponds to the Default Graph of an RDF Dataset.</p>
+  Such a graph statement corresponds to the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">Default Graph</a> of an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
 
   <p>
-    The construction of an RDF Dataset from a TriG document is defined in
+    The construction of an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> from a TriG document is defined in
     <a href="#sec-grammar" class="sectionRef"></a>
     and <a href="#sec-parsing" class="sectionRef"></a>.
   </p>
@@ -134,24 +164,28 @@
       <a data-cite="RDF12-TURTLE#predicate-lists">Predicate Lists</a>,
       and <a data-cite="RDF12-TURTLE#object-lists">Object Lists</a>
       can all be used either inside a graph statement, or on their own as in a Turtle document.
-      When outside a graph statement, the triples are considered to be part of the default graph
-      of the RDF Dataset.</p>
+      When outside a graph statement, the triples are considered to be part of the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a>
+      of the <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
   </section>
 
   <section id="sec-graph-statements">
     <h3>Graph Statements</h3>
 
-    <p>A graph statement pairs an IRI or blank node with a RDF graph.
+    <p>A graph statement pairs an
+      <a data-cite="RDF12-CONCEPTS#dfn-iri">IRIs</a> or
+      <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a> with an
+      <a data-cite="RDF12-CONCEPTS#dfn-rdf-graph">RDF graph</a>.
       The triple statements that make up the graph are enclosed in <code>{}</code>.</p>
 
-    <p>In a <a>TriG document</a> a graph IRI or blank node may be used as label
+    <p>In a <a>TriG document</a> a graph IRI or <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a> may be used as label
       for more than one graph statements.
       The graph label of a graph statement may be omitted.
-      In this case the graph is considered the default graph of the RDF Dataset.</p>
+      In this case the graph is considered the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a> of the <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
 
-    <p>A RDF Dataset might contain only a single graph.</p>
+    <p>A <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> might contain only a single graph.</p>
 
-    <pre class="example trig" data-transform="updateExample"
+    <pre id="ex-single-graph"
+         class="example trig" data-transform="updateExample"
          title="Dataset with single graph">
       <!--
       # This document encodes one graph.
@@ -168,9 +202,10 @@
       -->
     </pre>
 
-    <p>A RDF Dataset may contain a default graph, and named graphs.</p>
+    <p>A <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> may contain a <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a>, and <a data-cite="RDF12-CONCEPTS#dfn-named-graph">named graphs</a>.</p>
 
-    <pre class="example trig" data-transform="updateExample"
+    <pre id="ex-default-and-named-graphs"
+         class="example trig" data-transform="updateExample"
          title="Dataset with default and named graphs">
       <!--
       # This document contains a default graph and two named graphs.
@@ -201,8 +236,9 @@
     <p>TriG provides various alternative ways to write graphs
       and triples, giving the data writer choices for clarity:</p>
 
-    <pre class="example trig" data-transform="updateExample"
-         title="Alternative ways to wright named graphs">
+    <pre id="ex-alt-named-graphs"
+         class="example trig" data-transform="updateExample"
+         title="Alternative ways to write named graphs">
       <!--
       # This document contains a same data as the previous example.
 
@@ -233,13 +269,37 @@
 
   </section>
 
+  <section id="quoted-triples">
+    <h3>Quoted Triples</h3>
+
+    <p>TriG shares the same syntax for representing <dfn data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triples</dfn>
+      as Turtle, including the <a data-cite="RDF12-TURTLE#annotation-syntax">Annotation Syntax</a>.</p>
+
+    <pre id="ex-annotated-triple"
+         class="example trig"
+         data-transform="updateExample"
+         title="TriG annotated triples">
+    <!--
+      BASE <http://example.org/>
+      PREFIX : <#>
+      :G {
+        _:a :name "Alice" {| :statedBy :bob |} .
+      }
+    -->
+    </pre>
+
+  </section>
+
   <section id="other-terms">
     <h3>Other Terms</h3>
     <p>All other terms and directives come from Turtle.</p>
+
     <section id="terms-blanks-nodes">
       <h4>Special Considerations for Blank Nodes</h4>
-      <p>BlankNodes sharing the same label in differently labeled graph statements
-        are considered to be the same BlankNode.</p>
+      <p><a data-cite="RDF12-CONCEPTS#dfn-blank-node">Blank nodes</a>
+        sharing the same <a data-cite="RDF12-CONCEPTS#dfn-blank-node-identifier">identifier</a>
+        in differently labeled graph statements
+        are considered to be the same blank node.</p>
     </section>
   </section>
 </section>
@@ -254,14 +314,15 @@
   <p>A conforming <dfn>TriG document</dfn> is a Unicode string that conforms to the grammar
     and additional constraints defined in <a href="#sec-grammar" class="sectionRef"></a>,
     starting with the <a href="#grammar-production-trigDoc"><code>trigDoc</code> production</a>.
-    A TriG document serializes an RDF dataset.</p>
+    A TriG document serializes an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
 
   <p>A conforming <dfn>TriG parser</dfn> is a system capable of reading TriG documents
-    on behalf of an application. It makes the serialized RDF dataset,
+    on behalf of an application. It makes the serialized <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>,
     as defined in <a href="#sec-parsing" class="sectionRef"></a>,
     available to the application, usually through some form of API.</p>
 
-  <p>The IRI that identifies the TriG language is: <code>http://www.w3.org/ns/formats/TriG</code></p>
+  <p>The <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> that identifies the TriG language is:
+    <code>http://www.w3.org/ns/formats/TriG</code></p>
 
   <p class="note">This specification does not define how TriG parsers handle
     non-conforming input documents.</p>
@@ -339,7 +400,7 @@
           <em id="numeric">numeric escape sequences</em> represent Unicode code points:
         </p>
 
-        <table>
+        <table id="tab-uchar">
           <thead>
             <tr>
               <th>Escape sequence</th>
@@ -390,7 +451,7 @@
           traditionally escaped in string literals:
         </p>
 
-        <table>
+        <table id="tab-echar">
           <thead>
             <tr>
               <th>Escape sequence</th>
@@ -522,7 +583,8 @@
     <div>
       <p>Notes:</p>
       <ol>
-        <li>A blank node label represents the same blank node
+        <li>A <a data-cite="RDF12-CONCEPTS#dfn-blank-node-identifier">blank node identifier</a> represents the same
+          <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>
           throughout the TriG document.
         </li>
         <li>
@@ -559,17 +621,6 @@
           In signed numbers, no white space is allowed between the sign and the number.
         </li>
         <li>
-          The
-          <span style="font-size: smaller;">
-                <span>[162s]</span>
-                <span><code>ANON</code></span>
-                <span>::=</span>
-                <span>'<code class="grammar-literal">[</code>' <a href="#grammar-production-WS">WS</a><code class="grammar-star">*</code> '<code class="grammar-literal">]</code>'</span>
-          </span>
-          token allows any amount of white space and comments between <code class="grammar-literal">[]</code>s.
-          The single space version is used in the grammar for clarity.
-        </li>
-        <li>
           The strings '<a href="#grammar-production-prefixID"><code class="grammar-literal">@prefix</code></a>'
           and '<a href="#grammar-production-base"><code class="grammar-literal">@base</code></a>'
           match the pattern for <a href="#grammar-production-LANGTAG">LANGTAG</a>,
@@ -590,11 +641,13 @@
 <section id="sec-parsing">
   <h2>Parsing</h2>
   <p>The RDF Concepts and Abstract Syntax [[!RDF12-CONCEPTS]]
-    specification defines three types of <em>RDF Term</em>:
+    specification defines four types of <em>RDF Term</em>:
 
     <a data-cite="RDF12-CONCEPTS#dfn-iri">IRIs</a>,
-    <a data-cite="RDF12-CONCEPTS#dfn-literal">literals</a> and
-    <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank nodes</a>.
+    <a data-cite="RDF12-CONCEPTS#dfn-literal">literals</a>,
+    <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank nodes</a>, and
+    <a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triples</a>.
+
     Literals are composed of a <a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a> and an optional <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> [[!BCP47]] or datatype IRI.
     An extra type, <code id="prefix" class="dfn">prefix</code>, is used during parsing to map string identifiers to namespace IRIs.
 
@@ -605,13 +658,13 @@
 
   <section id="sec-parsing-state">
     <h3>Parser State</h3>
-    <p>Parsing TriG requires a state of six items:</p>
+    <p>Parsing TriG requires a state of seven items:</p>
 
     <ul>
-      <li id="baseURI">IRI <code class="dfn">baseURI</code>
+      <li id="baseURI">IRI |baseURI|
         — When the <a href="#grammar-production-base">base production</a> is reached,
         the second rule argument, <code>IRIREF</code>, is the base URI used for <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI reference</a> resolution.</li>
-      <li id="namespaces">Map[<a class="type prefix" href="#prefix">prefix</a> -&gt; IRI] <code class="dfn">namespaces</code>
+      <li id="namespaces">Map[<a class="type prefix" href="#prefix">prefix</a> -&gt; IRI] |namespaces|
         — The second and third rule arguments (<code>PNAME_NS</code> and <code>IRIREF</code>)
         in the <a href="#grammar-production-prefixID">prefixID production</a>
         assign a namespace name (<code>IRIREF</code>) for the prefix (<code>PNAME_NS</code>).
@@ -619,23 +672,31 @@
         is substituted with the namespace.
         Note that the prefix may be an empty string,
         per the <code>PNAME_NS,</code> production: <code>(PN_PREFIX)? ":"</code>.</li>
-      <li id="bnodeLabels">Map[string -&gt; <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>] <code class="dfn">bnodeLabels</code>
+      <li id="bnodeLabels">Map[string -&gt; <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>] |bnodeLabels|
         — A mapping from string to blank node.</li>
-      <li id="curSubject">RDF_Term <code class="dfn">curSubject</code>
-        — The <code class="curSubject">curSubject</code> is bound to the
-        <code><a href="#grammar-production-subject">subject</a></code> production.</li>
-      <li id="curPredicate">RDF_Term <code class="dfn">curPredicate</code>
-        — The <code class="curPredicate">curPredicate</code> is bound to the
+      <li id="curSubject">RDF_Term |curSubject|
+        — The |curSubject| is bound to the
+        <code><a href="#grammar-production-subject">subject</a></code>
+        and <code><a href="#grammar-production-qtSubject">qtSubject</a></code> productions.</li>
+      <li id="curPredicate">RDF_Term |curPredicate|
+        — The |curPredicate| is bound to the
         <code><a href="#grammar-production-verb">verb</a></code> production.
-        If token matched was "<code>a</code>", <code class="curPredicate">curPredicate</code>
+        If token matched was "<code>a</code>", |curPredicate|
         is bound to the IRI <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>.</li>
-      <li id="curGraph">RDF_Term <code class="dfn">curGraph</code> —
-        The <code class="curGraph">curGraph</code> is bound to
+      <li id="curObject">RDF_Term |curObject| —
+        The |curObject| is bound to the
+        <a href="#grammar-production-object">`object`</a> and
+        <a href="#grammar-production-qtObject">`qtObject`</a> productions.</li>
+      <li id="curGraph">RDF_Term |curGraph| —
+        The |curGraph| is bound to
         the label of the graph that is the destination of triples
         produced in parsing.  When undefined, triples are destined
-        for the default graph.
+        for the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a>.
       </li>
     </ul>
+    <p>Additionally, |curSubject|
+      can be bound to any RDF_Term
+      (including a <a>quoted triple</a>).</p>
   </section>
 
   <section  id="sec-parsing-terms">
@@ -644,7 +705,7 @@
     <p>This table maps productions and lexical tokens to <code>RDF terms</code>
       or components of <code>RDF terms</code> listed in <a href="#sec-parsing" class="sectionRef"></a>:</p>
 
-    <table class="separated">
+    <table id="tab-term-constructors" class="separated">
       <thead>
         <tr>                                  <th>                                                                                                                                       production                            </th><th>                   type            </th><th>procedure</th></tr>
       </thead>
@@ -669,6 +730,15 @@
         <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           >blankNodePropertyList           </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
         <tr id="handle-collection"                      ><td style="text-align:left;" rowspan="2"><a class="type bNode"       href="#grammar-production-collection"                      >collection                      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>For non-empty lists, a blank node is generated. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-collection-IRI"                  ><td                                                                                                                                                                          ><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>For empty lists, the resulting IRI is <code>rdf:nil</code>. Note the rules for <code>collection</code> in the next section.</td></tr>
+        <tr id="handle-quotedTriple"                    ><td style="text-align:left;"            ><a class="type quotedTriple" href="#grammar-production-quotedTriple"                    >quotedTriple                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triple</a></td>
+          <td>
+            The <a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triple</a>
+            is composed of the terms constructed from
+            the <code><a href="#grammar-production-subject">subject</a></code>,
+            <code><a href="#grammar-production-predicate">predicate</a></code>, and
+            <code><a href="#grammar-production-object">object</a></code> productions.
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -677,27 +747,27 @@
     <h3>RDF Triples Construction</h3>
     <p>
       A TriG document defines an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF Dataset</a>
-      composed of one default graph and zero or
-      more named graphs. Each graph is composed of a set of
-      <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">RDF triple</a>s.
+      composed of one <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a> and zero or
+      more <a data-cite="RDF12-CONCEPTS#dfn-named-graph">named graphs</a>.
+      Each graph is composed of a set of <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">RDF triples</a>.
     </p>
 
     <section id="output-graph">
       <h4>Output Graph</h4>
-      <p>The state <code class="curGraph">curGraph</code> is
+      <p>The state |curGraph| is
         initially unset. It records the label of the graph for
-        triples produced during parsing.  If undefined, the default
-        graph is used.</p>
+        triples produced during parsing.
+        If undefined, the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a> is used.</p>
 
       <p>The rule
         <code><a href="#grammar-production-labelOrSubject">labelOrSubject</a></code>
-        sets both <code class="curGraph">curGraph</code>
-        and <code class="curSubject">curSubject</code>
+        sets both |curGraph|
+        and |curSubject|
         (only one of these will be used).
       </p>
 
       <p>The following grammar production clauses set
-        <code class="curGraph">curGraph</code> to be undefined, indicating the default
+        |curGraph| to be undefined, indicating the default
         graph:
       </p>
       <ul>
@@ -714,63 +784,74 @@
       <p>
         The grammar production
         <code>labelOrSubject predicateObjectList '.'</code>
-        unsets <code class="curGraph">curGraph</code>
+        unsets |curGraph|
         before handling <code>predicateObjectLists</code>
         in rule <code><a href="#grammar-production-triplesOrGraph">triplesOrGraph</a></code>.
       </p>
+
+      <p>Beginning the <a href="#grammar-production-quotedTriple">`quotedTriple`</a> production
+        records the |curSubject| and |curPredicate|.
+        Finishing the <a href="#grammar-production-quotedTriple">`quotedTriple`</a> production
+        yields the RDF triple |curSubject| |curPredicate| |curObject|
+        and restores the recorded values of |curSubject| and |curPredicate|.</p>
+
+      <p>Beginning the <a href="#grammar-production-annotation">`annotation`</a> production
+        records the |curSubject| and |curPredicate|,
+        and sets the |curSubject| to the RDF triple |curSubject| |curPredicate| |curObject|.
+        Finishing the <a href="#grammar-production-annotation">`annotation`</a> production
 
     </section>
 
     <section id="triple-output">
       <h4>Triple Output</h4>
       <p>
-        Each RDF triple produced is added to <code class="curGraph">curGraph</code>,
-        or the default graph if <code class="curGraph">curGraph</code>
+        Each RDF triple produced is added to |curGraph|,
+        or the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a> if |curGraph|
         is not set at that
         point in the parsing process.
       </p>
       <p>
         The <code><a href="#grammar-production-subject">subject</a></code>
-        production sets the <code class="curSubject">curSubject</code>.
+        production sets the |curSubject|.
         The <code><a href="#grammar-production-verb">verb</a></code>
-        production sets the <code class="curPredicate">curPredicate</code>.
+        production sets the |curPredicate|.
       </p>
       <p>Triples are produced at the following points in the
         parsing process and each RDF triple produced is
         added to the graph identified
-        by <code class="curGraph">curGraph</code>.
+        by |curGraph|.
       </p>
+    </section>
 
-      <section id="triple-production">
-        <h5 style="padding-bottom:0; margin-bottom:0;">Triple Production</h5>
-        <p style="padding-top:0; margin-top:0;">
-          Each <a class="grammarRef" href="#grammar-production-object">object</a>
-          <code>N</code> in the document produces an RDF triple:
-          <span class="ntriple"><code class="curSubject">curSubject</code>
-          <code class="curPredicate">curPredicate</code> <code>N</code>.</span>
-        </p>
-      </section>
+    <section id="triple-production">
+      <h5 style="padding-bottom:0; margin-bottom:0;">Triple Production</h5>
+      <p style="padding-top:0; margin-top:0;">
+        Each <a class="grammarRef" href="#grammar-production-object">object</a>
+        <code>N</code> in the document produces an RDF triple:
+        <span class="ntriple">|curSubject|
+        |curPredicate| <code>N</code>.</span>
+      </p>
+    </section>
 
-      <section id="propertyList">
-        <h5 style="padding-bottom:0; margin-bottom:0;">Property Lists</h5>
+    <section id="propertyList">
+      <h5 style="padding-bottom:0; margin-bottom:0;">Property Lists</h5>
 
-        <p style="padding-top:0; margin-top:0;">
-          Beginning the <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> production records the <code class="curSubject">curSubject</code> and <code class="curPredicate">curPredicate</code>, and sets <code class="curSubject">curSubject</code> to a novel <code>blank node</code> <code>B</code>.
-          Finishing the <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> production restores <code class="curSubject">curSubject</code> and <code class="curPredicate">curPredicate</code>.
-          The node produced by matching <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> is the blank node <code>B</code>.
-        </p>
-      </section>
+      <p style="padding-top:0; margin-top:0;">
+        Beginning the <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> production records the |curSubject| and |curPredicate|, and sets |curSubject| to a novel <code>blank node</code> <code>B</code>.
+        Finishing the <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> production restores |curSubject| and |curPredicate|.
+        The node produced by matching <code><a href="#grammar-production-blankNodePropertyList">blankNodePropertyList</a></code> is the blank node <code>B</code>.
+      </p>
+    </section>
 
-      <section id="collection">
-        <h5 style="padding-bottom:0; margin-bottom:0;"><span>Collections</span></h5>
-        <p style="padding-top:0; margin-top:0;">
-          Beginning the <code><a href="#grammar-production-collection">collection</a></code> production records the <code class="curSubject">curSubject</code> and <code class="curPredicate">curPredicate</code>.
-        Each <code>object</code> in the <code><a href="#grammar-production-collection">collection</a></code> production has a <code class="curSubject">curSubject</code> set to a novel <code>blank node</code> <code>B</code> and a <code class="curPredicate">curPredicate</code> set to <code>rdf:first</code>.
-          For each object <code>object<sub>n</sub></code> after the first produces a triple:<span class="ntriple"><code>object<sub>n-1</sub></code> <code>rdf:rest</code> <code>object<sub>n</sub></code> .</span>
-          Finishing the <code><a href="#grammar-production-collection">collection</a></code> production creates an additional triple <span class="ntriple"><code>curSubject rdf:rest rdf:nil</code> .</span> and restores <code class="curSubject">curSubject</code> and <code class="curPredicate">curPredicate</code>
-          The node produced by matching <code><a href="#grammar-production-collection">collection</a></code> is the first blank node <code>B</code> for non-empty lists and <code>rdf:nil</code> for empty lists.
-        </p>
-      </section>
+    <section id="collection">
+      <h5 style="padding-bottom:0; margin-bottom:0;"><span>Collections</span></h5>
+      <p style="padding-top:0; margin-top:0;">
+        Beginning the <code><a href="#grammar-production-collection">collection</a></code> production records the |curSubject| and |curPredicate|.
+      Each <code>object</code> in the <code><a href="#grammar-production-collection">collection</a></code> production has a |curSubject| set to a novel <code>blank node</code> <code>B</code> and a |curPredicate| set to <code>rdf:first</code>.
+        For each object <code>object<sub>n</sub></code> after the first produces a triple:<span class="ntriple"><code>object<sub>n-1</sub></code> <code>rdf:rest</code> <code>object<sub>n</sub></code> .</span>
+        Finishing the <code><a href="#grammar-production-collection">collection</a></code> production creates an additional triple <span class="ntriple"><code>curSubject rdf:rest rdf:nil</code> .</span> and restores |curSubject| and |curPredicate|
+        The node produced by matching <code><a href="#grammar-production-collection">collection</a></code> is the first blank node <code>B</code> for non-empty lists and <code>rdf:nil</code> for empty lists.
+      </p>
     </section>
   </section>
 </section>
