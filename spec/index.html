@@ -571,13 +571,6 @@
 
     <p>The <abbr title="Extended Backus–Naur Form">EBNF</abbr> used here is defined in XML 1.0
       [[!EBNF-NOTATION]].
-      Production labels consisting of a number and a final 'g' are unique to TriG.
-      All Production labels consisting of only a number reference the production
-      with that number in the Turtle grammar [[RDF12-TURTLE]].
-      Production labels consisting of a number and a final 's',
-      e.g. [<a data-cite="?SPARQL12-QUERY#rRDFLiteral"><span class="prodNo">60s</span></a>],
-      reference the production with that number in the document
-      [[[?SPARQL12-QUERY]]] [[?SPARQL12-QUERY]].
     </p>
 
     <div>
@@ -628,7 +621,7 @@
           nor "<code class="grammar-literal">base</code>"
           are <a data-cite="?LANG-SUBTAG-REGISTRY#">registered language subtags</a>.
           This specification does not define whether a quoted literal followed by
-          either of these tokens (e.g. <code>"Z"@base</code>) is in the TriG language.
+          either of these tokens (e.g., <code>"Z"@base</code>) is in the TriG language.
         </li>
       </ol>
     </div>
@@ -653,7 +646,7 @@
 
     This section maps a string conforming to the grammar in <a href="#grammar-ebnf" class="sectionRef"></a>
     to a set of triples by mapping strings matching productions and lexical tokens to RDF terms
-    or their components (e.g. language tags, lexical forms of literals).
+    or their components (e.g., language tags, lexical forms of literals).
     Grammar productions change the parser state and emit triples.</p>
 
   <section id="sec-parsing-state">
