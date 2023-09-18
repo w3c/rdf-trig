@@ -189,8 +189,8 @@
          title="Dataset with single graph">
       <!--
       # This document encodes one graph.
-      @prefix ex: <http://www.example.org/vocabulary#> .
-      @prefix : <http://www.example.org/exampleDocument#> .
+      PREFIX ex: <http://www.example.org/vocabulary#>
+      PREFIX : <http://www.example.org/exampleDocument#>
 
       :G1 { :Monica a ex:Person ;
           ex:name "Monica Murphy" ;
@@ -210,9 +210,9 @@
       <!--
       # This document contains a default graph and two named graphs.
 
-      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-      @prefix dc: <http://purl.org/dc/terms/> .
-      @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX dc: <http://purl.org/dc/terms/>
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
       # default graph
       {
@@ -242,9 +242,9 @@
       <!--
       # This document contains a same data as the previous example.
 
-      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-      @prefix dc: <http://purl.org/dc/terms/> .
-      @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX dc: <http://purl.org/dc/terms/>
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
       # default graph - no {} used.
       <http://example.org/bob> dc:publisher "Bob" .
@@ -378,14 +378,14 @@
     </p>
 
     <p>
-      The <code>@base</code> directive defines the Base IRI used to resolve <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI references</a>
+      The <code>BASE</code> directive defines the Base IRI used to resolve <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">relative IRI references</a>
       per [[RFC3986]] section 5.1.1, "Base URI Embedded in Content".
       Section 5.1.2, "Base URI from the Encapsulating Entity" defines how the In-Scope
       Base IRI may come from an encapsulating document,
       such as a SOAP envelope with an xml:base directive or a mime multipart document with a Content-Location header.
       The "Retrieval URI" identified in 5.1.3, Base "URI from the Retrieval URI", is the URL from which a particular TriG document was retrieved.
       If none of the above specifies the Base URI, the default Base URI (section 5.1.4, "Default Base URI") is used.
-      Each <code>@base</code> directive sets a new In-Scope Base URI, relative to the previous one.
+      Each <code>BASE</code> directive sets a new In-Scope Base URI, relative to the previous one.
     </p>
   </section>
 
@@ -530,8 +530,8 @@
         <tr>
           <td class="r"><span style="font-weight:bold;">IRI</span>s,
             used as <a href="#grammar-production-IRIREF">RDF terms</a>
-            or as in <a href="#grammar-production-prefixID">@prefix</a>
-            or <a href="#grammar-production-base">@base</a> declarations</td>
+            or as in <a href="#grammar-production-sparqlPrefix">PREFIX</a>
+            or <a href="#grammar-production-sparqlBase">BASE</a> declarations</td>
           <td style="background-color: lightgreen; border:1px solid black;">yes</td>
           <td>no</td>
           <td>no</td>
@@ -561,7 +561,7 @@
       in TriG designates the IRI <code>http://a.example/%66oo-bar</code>
       and not IRI <code>http://a.example/foo-bar</code>.
       A term written as <code>ex:%66oo-bar</code> with a prefix
-      <code>@prefix ex: &lt;http://a.example/&gt;</code> also designates
+      <code>PREFIX ex: &lt;http://a.example/&gt;</code> also designates
       the IRI <code>http://a.example/%66oo-bar</code>.</p>
 
   </section>
