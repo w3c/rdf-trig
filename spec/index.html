@@ -377,7 +377,6 @@
 
   <section id="sec-iri-references">
     <h3>IRI References</h3>
-    <h3>IRI References</h3>
     <p>
       <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI references</a> are resolved with base IRIs
       as per [[[RFC3986]]] [[RFC3986]] using only the basic algorithm in section 5.2.
@@ -427,7 +426,7 @@
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a></td>
-              <td>A <a data-cite="i18n-glossary#dfn-code-point">Unicode code point</a>
+              <td>A <a data-cite="I18N-GLOSSARY#dfn-code-point">Unicode code point</a>
                 in the range <code class="codepoint">U+0000</code> to <code class="codepoint">U+FFFF</code> inclusive
                 corresponding to the value encoded by the four hexadecimal digits interpreted
                 from most significant to least significant digit.</td>
@@ -442,7 +441,7 @@
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a></td>
-              <td>A <a data-cite="i18n-glossary#dfn-code-point">Unicode code point</a>
+              <td>A <a data-cite="I18N-GLOSSARY#dfn-code-point">Unicode code point</a>
                 in the range <code class="codepoint">U+0000</code> to <code class="codepoint">U+0010FFFF</code> inclusive
                 corresponding to the value encoded by the eight hexadecimal digits
                 interpreted from most significant to least significant digit.</td>
@@ -601,7 +600,8 @@
           are case-sensitive.
           Keywords in quotation marks
           ("<code class="grammar-literal">BASE</code>",
-          "<code class="grammar-literal">PREFIX</code>")
+          "<code class="grammar-literal">PREFIX</code>",
+          "<code class="grammar-graph">GRAPH</code>")
           are case-insensitive.
         </li>
         <li>
@@ -1012,7 +1012,7 @@
     has the same visual representation as LATIN SMALL LETTER "E" WITH ACUTE
     (<code class="codepoint">U+00E9</code>)).
     <!-- (<code>foo:resum&#40751;code> and <code>f&#1086;&#1086;:resume&#769;</code>)-->
-    Any person or application that is writing or interpreting data in Turtle
+    Any person or application that is writing or interpreting data in TriG
     must take care to use the IRI that matches the intended semantics,
     and avoid IRIs that may look similar.
     Further information about matching visually similar characters can be found
