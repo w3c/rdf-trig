@@ -109,7 +109,7 @@
     <a data-cite="RDF12-CONCEPTS#dfn-dir-lang-string">directional language-tagged strings</a>
     with [[RDF12-TURTLE]].</p>
 
-  <p>RDF 1.2 TriG also shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
+  <p>In addition, RDF 1.2 TriG shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
     <a>quoted triples</a> to also be <a data-cite="RDF12-CONCEPTS#dfn-asserted-triple">asserted</a>.</p>
 </section>
 
@@ -732,7 +732,7 @@
       <dt id="cp-triple-quote"><code>"""</code></dt>
       <dd>three concatenated quotation mark characters, each having the code point <code class="codepoint">U+0022</code></dd>
       <dt id="cp-triple-apostrophe"><code>'''</code></dt>
-      <dd>three concatenated apostrophes characters, each having the code point <code class="codepoint">U+0027</code></dd>
+      <dd>three concatenated apostrophe characters, each having the code point <code class="codepoint">U+0027</code></dd>
       <dt id="cp-hyphen-hyphen"><code>--</code></dt>
       <dd>two concatenated <a href="#cp-hyphen"><code title="hyphen">-</code></a> characters</dd>
     </dl>
@@ -752,7 +752,7 @@
     Literals are composed of a <a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a>
     and an optional <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> [[!BCP47]]
     – possibly including a <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a> –
-    or <a data-cite="RDF12-CONCEPTS#dfn-datatype-iri">datatype IRI</a>.
+    or an optional <a data-cite="RDF12-CONCEPTS#dfn-datatype-iri">datatype IRI</a>.
     An extra type, <code id="prefix" class="dfn">prefix</code>, is used during parsing to map string identifiers to namespace IRIs.
 
     This section maps a string conforming to the grammar in <a href="#grammar-ebnf" class="sectionRef"></a>
