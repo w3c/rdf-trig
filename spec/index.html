@@ -104,9 +104,12 @@
     <a data-cite="RDF12-CONCEPTS#dfn-subject">subject</a> or
     <a data-cite="RDF12-CONCEPTS#dfn-object">object</a> of another
     <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">triple</a>,
-    making it possible to make statements about other statements.</p>
+    making it possible to make statements about other statements.
+    RDF 1.2 TriG also adds shares
+    <a data-cite="RDF12-CONCEPTS#dfn-dir-lang-string">directional language-tagged strings</a>
+    with [[RDF12-TURTLE]].</p>
 
-  <p>RDF 1.2 TriG also shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
+  <p>In addition, RDF 1.2 TriG shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
     <a>quoted triples</a> to also be <a data-cite="RDF12-CONCEPTS#dfn-asserted-triple">asserted</a>.</p>
 </section>
 
@@ -627,7 +630,7 @@
         <li>
           The strings '<a href="#grammar-production-prefixID"><code class="grammar-literal">@prefix</code></a>'
           and '<a href="#grammar-production-base"><code class="grammar-literal">@base</code></a>'
-          match the pattern for <a href="#grammar-production-LANGTAG"><code>LANGTAG</code></a>,
+          match the pattern for <a href="#grammar-production-LANG_DIR"><code>LANG_DIR</code></a>,
           though neither <code class="grammar-literal">prefix</code>
           nor <code class="grammar-literal">base</code>
           are <a data-cite="?LANG-SUBTAG-REGISTRY#">registered language subtags</a>.
@@ -678,6 +681,11 @@
           <td><code title="apostrophe">'</code></td>
           <td>Apostrophe</td>
         </tr>
+        <tr id="cp-hyphen">
+          <td><code class="codepoint">U+002D</code></td>
+          <td><code title="hyphen">-</code></td>
+          <td>Hyphen</td>
+        </tr>
         <tr id="cp-colon">
           <td><code class="codepoint">U+003B</code></td>
           <td><code title="colon">:</code></td>
@@ -724,7 +732,9 @@
       <dt id="cp-triple-quote"><code>"""</code></dt>
       <dd>three concatenated quotation mark characters, each having the code point <code class="codepoint">U+0022</code></dd>
       <dt id="cp-triple-apostrophe"><code>'''</code></dt>
-      <dd>three concatenated apostrophes characters, each having the code point <code class="codepoint">U+0027</code></dd>
+      <dd>three concatenated apostrophe characters, each having the code point <code class="codepoint">U+0027</code></dd>
+      <dt id="cp-hyphen-hyphen"><code>--</code></dt>
+      <dd>two concatenated <a href="#cp-hyphen"><code title="hyphen">-</code></a> characters</dd>
     </dl>
   </section>
 </section>
@@ -739,7 +749,10 @@
     <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank nodes</a>, and
     <a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triples</a>.
 
-    Literals are composed of a <a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a> and an optional <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> [[!BCP47]] or datatype IRI.
+    Literals are composed of a <a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a>
+    and an optional <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> [[!BCP47]]
+    – possibly including a <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a> –
+    or an optional <a data-cite="RDF12-CONCEPTS#dfn-datatype-iri">datatype IRI</a>.
     An extra type, <code id="prefix" class="dfn">prefix</code>, is used during parsing to map string identifiers to namespace IRIs.
 
     This section maps a string conforming to the grammar in <a href="#grammar-ebnf" class="sectionRef"></a>
@@ -802,7 +815,7 @@
       </thead>
       <tbody>
         <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          ><code>IRIREF</code>             </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, after the <a href="#numeric">numeric escape sequences</a> are processed, to form the Unicode string of the IRI. <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI reference</a> resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
-        <tr id="handle-PNAME_NS"                        ><td style="text-align:left;" rowspan="2"><a class="type string"      href="#grammar-production-PNAME_NS"                        ><code>PNAME_NS</code>           </a></td><td><a href="#prefix">                         prefix      </a></td><td>When used in a <a href="#grammar-production-prefixID"><code>prefixID</code></a> or <a href="#grammar-production-sparqlPrefix"><code>sparqlPrefix</code></a> production, the <code>prefix</code> is the potentially empty Unicode string matching the first argument of the rule is a key into the <a href="#namespaces">namespaces map</a>.</td></tr>
+        <tr id="handle-PNAME_NS"                        ><td style="text-align:left;" rowspan="2"><a class="type string"      href="#grammar-production-PNAME_NS"                        ><code>PNAME_NS</code>           </a></td><td><a href="#prefix">                             prefix      </a></td><td>When used in a <a href="#grammar-production-prefixID"><code>prefixID</code></a> or <a href="#grammar-production-sparqlPrefix"><code>sparqlPrefix</code></a> production, the <code>prefix</code> is the potentially empty Unicode string matching the first argument of the rule is a key into the <a href="#namespaces">namespaces map</a>.</td></tr>
         <tr id="handle-PNAME-IRI"                       >                                                                                                                                                                          <td><a data-cite="RDF12-CONCEPTS#dfn-iri">   <code>IRI</code>  </a></td><td>When used in a <a href="#grammar-production-PrefixedName"><code>PrefixedName</code></a> production, the <code>iri</code> is the value in the <a href="#namespaces">namespaces map</a> corresponding to the first argument of the rule.</td></tr>
         <tr id="handle-PNAME_LN"                        ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PNAME_LN"                        ><code>PNAME_LN</code>           </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">   <code>IRI</code>  </a></td><td>A potentially empty <a href="#prefix">prefix</a> is identified by the first sequence, <a href="#grammar-production-PNAME_NS"><code>PNAME_NS</code></a>. The <a href="#namespaces">namespaces map</a> <em class="rfc2119">MUST</em> have a corresponding <code>namespace</code>. The Unicode string of the IRI is formed by unescaping the <a href="#reserved">reserved characters</a> in the second argument, <a href="#grammar-production-PN_LOCAL"><code>PN_LOCAL</code></a>, and concatenating this onto the <code>namespace</code>.</td></tr>
         <!-- tr id="handle-PrefixedName"                ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PrefixedName"                    >PrefixedName                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>.</td></tr -->
@@ -810,15 +823,15 @@
         <tr id="handle-STRING_LITERAL_QUOTE"            ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_QUOTE"            ><code>STRING_LITERAL_QUOTE</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-quotation-mark"><code title="quotation mark">&quot;</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
         <tr id="handle-STRING_LITERAL_LONG_SINGLE_QUOTE"><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_SINGLE_QUOTE"><code>STRING_LITERAL_LONG_SINGLE_QUOTE</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-apostrophe"><code>'''</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the unicode string of a lexical form.</td></tr>
         <tr id="handle-STRING_LITERAL_LONG_QUOTE"       ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_QUOTE"       ><code>STRING_LITERAL_LONG_QUOTE</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-quote"><code>"""</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
-        <tr id="handle-LANGTAG"                         ><td style="text-align:left;"            ><a class="type langTag"     href="#grammar-production-LANGTAG"                         ><code>LANGTAG</code>            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a></td><td>The characters following the <a href="#cp-at-sign"><code title="at sign">@</code></a> form the Unicode string of the language tag.</td></tr>
-        <tr id="handle-RDFLiteral"                      ><td style="text-align:left;"            ><a class="type literal"     href="#grammar-production-RDFLiteral"                      ><code>RDFLiteral</code>         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the first rule argument, <code>String</code>, and either a language tag of <code>LANGTAG</code> or a datatype IRI of <code>iri</code>, depending on which rule matched the input. If the <code>LANGTAG</code> rule matched, the datatype is <code>rdf:langString</code> and the language tag is <code>LANGTAG</code>. If neither a language tag nor a datatype IRI is provided, the literal has a datatype of <code>xsd:string</code>.</td></tr>
+        <tr id="handle-LANG_DIR"                        ><td style="text-align:left;"            ><a class="type langDir"     href="#grammar-production-LANG_DIR"                        >LANG_DIR                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a></td><td>The characters following the <a href="#cp-at-sign"><code title="at sign">@</code></a> form the <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> and optionally the <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a>, if the matched characters include <a href="#cp-hyphen-hyphen"><code>--</code></a>.</td></tr>
+        <tr id="handle-RDFLiteral"                      ><td style="text-align:left;"            ><a class="type literal"     href="#grammar-production-RDFLiteral"                      >RDFLiteral                      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the first rule argument, <a href="#grammar-production-String"><code>String</code></a>. If the <code>'^^' iri</code> rule is matched, the <a data-cite="RDF12-CONCEPTS#dfn-datatype-iri">datatype IRI</a> is derived from the <code>iri</code>, and the literal has no language tag. If the <a href="#grammar-production-LANG_DIR" class="type langDir"><code>LANG_DIR</code></a> rule is matched, the <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> and <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a> are taken from <a href=#handle-LANG_DIR class="type langDir"><code>LANG_DIR</code></a>. If there is no <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a>, the datatype is <code>rdf:langString</code>. If there is a <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a>, the datatype is <code>rdf:dirLangString</code>. If neither matched, the datatype is <code>xsd:string</code>, and the literal has no language tag.</td></tr>
         <tr id="handle-INTEGER"                         ><td style="text-align:left;"            ><a class="type integer"     href="#grammar-production-INTEGER"                         ><code>INTEGER</code>            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the input string, and a datatype of <code>xsd:integer</code>.</td></tr>
         <tr id="handle-DECIMAL"                         ><td style="text-align:left;"            ><a class="type decimal"     href="#grammar-production-DECIMAL"                         ><code>DECIMAL</code>            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the input string, and a datatype of <code>xsd:decimal</code>.</td></tr>
         <tr id="handle-DOUBLE"                          ><td style="text-align:left;"            ><a class="type double"      href="#grammar-production-DOUBLE"                          ><code>DOUBLE</code>             </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the input string, and a datatype of <code>xsd:double</code>.</td></tr>
         <tr id="handle-BooleanLiteral"                  ><td style="text-align:left;"            ><a class="type boolean"     href="#grammar-production-BooleanLiteral"                  ><code>BooleanLiteral</code>     </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the <code>true</code> or <code>false</code>, depending on which matched the input, and a datatype of <code>xsd:boolean</code>.</td></tr>
         <tr id="handle-BLANK_NODE_LABEL"                ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-BLANK_NODE_LABEL"                ><code>BLANK_NODE_LABEL</code>   </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>The string matching the second argument, <a href="#grammar-production-PN_LOCAL"><code>PN_LOCAL</code></a>, is a key in <a href="#bnodeLabels">bnodeLabels</a>. If there is no corresponding blank node in the map, one is allocated.</td></tr>
         <tr id="handle-ANON"                            ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-ANON"                            ><code>ANON</code>               </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>A blank node is generated.</td></tr>
-        <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           ><code>blankNodePropertyList</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
+        <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           ><code>blankNodePropertyList</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
         <tr id="handle-collection"                      ><td style="text-align:left;" rowspan="2"><a class="type bNode"       href="#grammar-production-collection"                      ><code>collection</code>         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>For non-empty lists, a blank node is generated. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-collection-IRI"                  ><td                                                                                                                                                                          ><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>For empty lists, the resulting IRI is <code>rdf:nil</code>. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-quotedTriple"                    ><td style="text-align:left;"            ><a class="type quotedTriple" href="#grammar-production-quotedTriple"                    >quotedTriple                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triple</a></td>
@@ -1123,6 +1136,9 @@
     <li>Syntax is aligned to the Turtle [[RDF12-TURTLE]] recommendation for <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF terms</a>.</li>
     <li>Separated <a href="#security"></a> from <a href="#sec-mediaReg"></a>
       and updated language.</li>
+    <li>Changes the `LANGTAG` terminal production to
+      <a href="#grammar-production-LANG_DIR" class="type langDir"><code>LANG_DIR</code></a> to include
+      an optional <a data-cite="RDF12-CONCEPTS#dfn-base-direction">base direction</a>.</li>
   </ul>
 </section>
 
