@@ -98,7 +98,7 @@
   Turtle [[RDF12-TURTLE]] format.
   </p>
 
-  <p>RDF 1.2 TriG shares <a>quoted triples</a> with [[RDF12-TURTLE]]
+  <p>RDF 1.2 TriG shares <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> with [[RDF12-TURTLE]]
     as a fourth kind of <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF term</a>
     which can be used as the
     <a data-cite="RDF12-CONCEPTS#dfn-subject">subject</a> or
@@ -110,7 +110,7 @@
     with [[RDF12-TURTLE]].</p>
 
   <p>In addition, RDF 1.2 TriG shares the <a data-cite="RDF12-TURTLE#annotation-syntax">annotation syntax</a> with [[RDF12-TURTLE]] which allows
-    <a>quoted triples</a> to also be <a data-cite="RDF12-CONCEPTS#dfn-asserted-triple">asserted</a>.</p>
+    <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> to also be <a data-cite="RDF12-CONCEPTS#dfn-asserted-triple">asserted</a>.</p>
 </section>
 
 <section id='sotd' class="updateable-rec">
@@ -282,10 +282,18 @@
 
   </section>
 
-  <section id="quoted-triples">
-    <h3>Quoted Triples</h3>
+  <section id="reifications">
+    <h3>Reifications</h3>
 
-    <p>TriG shares the same syntax for representing <dfn data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triples</dfn>
+
+    <p class="note"><a>Reification</a> in RDF 1.2 is a concept distinct from the
+      <a data-cite="RDF12-SEMANTICS#Reif">Reification vocabulary</a> originally
+      defined in <a data-cite="RDF-MT#Reif">RDF Semantics</a>.
+      While both terms describe a representation of an RDF triple using components,
+      RDF 1.2 uses the term to identify a <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a>
+      using the `rdf:reifies` predicate.</p>
+
+    <p>TriG shares the same syntax for representing <dfn data-cite="RDF12-CONCEPTS#dfn-triple-terms">triple terms</dfn>
       as Turtle, including the <a data-cite="RDF12-TURTLE#annotation-syntax">Annotation Syntax</a>.</p>
 
     <pre id="ex-annotated-triple"
@@ -296,7 +304,7 @@
       BASE <http://example.org/>
       PREFIX : <#>
       :G {
-        _:a :name "Alice" {| :statedBy :bob |} .
+        _:a :name "Alice" {| :t | :statedBy :bob |} .
       }
     -->
     </pre>
@@ -747,7 +755,7 @@
     <a data-cite="RDF12-CONCEPTS#dfn-iri">IRIs</a>,
     <a data-cite="RDF12-CONCEPTS#dfn-literal">literals</a>,
     <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank nodes</a>, and
-    <a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triples</a>.
+    <a data-cite="RDF12-CONCEPTS#dfn-triple terms">triple terms</a>.
 
     Literals are composed of a <a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a>
     and an optional <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> [[!BCP47]]
@@ -800,7 +808,7 @@
     </ul>
     <p>Additionally, |curSubject|
       can be bound to any RDF_Term
-      (including a <a>quoted triple</a>).</p>
+      (including a <a>triple terms</a>).</p>
   </section>
 
   <section  id="sec-parsing-terms">
@@ -834,9 +842,9 @@
         <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           ><code>blankNodePropertyList</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
         <tr id="handle-collection"                      ><td style="text-align:left;" rowspan="2"><a class="type bNode"       href="#grammar-production-collection"                      ><code>collection</code>         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>For non-empty lists, a blank node is generated. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-collection-IRI"                  ><td                                                                                                                                                                          ><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>For empty lists, the resulting IRI is <code>rdf:nil</code>. Note the rules for <code>collection</code> in the next section.</td></tr>
-        <tr id="handle-quotedTriple"                    ><td style="text-align:left;"            ><a class="type quotedTriple" href="#grammar-production-quotedTriple"                    >quotedTriple                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triple</a></td>
+        <tr id="handle-tripleTerm"                    ><td style="text-align:left;"            ><a class="type tripleTerm" href="#grammar-production-tripleTerm"                    >tripleTerm                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-triple0term">triple term</a></td>
           <td>
-            The <a data-cite="RDF12-CONCEPTS#dfn-quoted-triple">quoted triple</a>
+            The <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term/a>
             is composed of the terms constructed from
             the <a href="#grammar-production-subject"><code>subject</code></a>,
             <a href="#grammar-production-predicate"><code>predicate</code></a>, and
