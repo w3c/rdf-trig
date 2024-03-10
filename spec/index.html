@@ -842,13 +842,33 @@
         <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           ><code>blankNodePropertyList</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
         <tr id="handle-collection"                      ><td style="text-align:left;" rowspan="2"><a class="type bNode"       href="#grammar-production-collection"                      ><code>collection</code>         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>For non-empty lists, a blank node is generated. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-collection-IRI"                  ><td                                                                                                                                                                          ><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>For empty lists, the resulting IRI is <code>rdf:nil</code>. Note the rules for <code>collection</code> in the next section.</td></tr>
-        <tr id="handle-tripleTerm"                    ><td style="text-align:left;"            ><a class="type tripleTerm" href="#grammar-production-tripleTerm"                    >tripleTerm                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-triple0term">triple term</a></td>
+        <tr id="handle-tripleTerm"                    ><td style="text-align:left;"            ><a class="type tripleTerm" href="#grammar-production-tripleTerm"                    >tripleTerm                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a></td>
           <td>
             The <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a>
             is composed of the terms constructed from
             the <a href="#grammar-production-subject"><code>subject</code></a>,
             <a href="#grammar-production-predicate"><code>predicate</code></a>, and
             <a href="#grammar-production-object"><code>object</code></a> productions.
+          </td>
+        </tr>
+        <tr id="handle-reification"                     ><td style="text-align:left;"            ><a class="type reification" href="#grammar-production-reification"                      >reification                     </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> | <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a></td>
+          <td>
+            The <a class="type reification" href="#grammar-production-reification">reification</a> production
+            defines an RDF term in addition to a <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a>.
+            The term constructed from this production
+            is composed of an identifier from either the <a href="#grammar-production-iri"><code>iri</code></a>
+            or <a href="#grammar-production-BlankNode"><code>BlankNode</code></a> productions,
+            if present, otherwise from a fresh RDF <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>.
+          </td>
+        </tr>
+        <tr id="handle-annotation"                      ><td style="text-align:left;"            ><a class="type annotation" href="#grammar-production-annotation"                        >annotation                      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a> | <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a></td>
+          <td>
+            The <a href="#grammar-production-annotation"><code>annotation</code></a> production
+            defines an RDF term in addition to a <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a>.
+            The term constructed from this production
+            is composed of an identifier from either the <a href="#grammar-production-iri"><code>iri</code></a>
+            or <a href="#grammar-production-BlankNode"><code>BlankNode</code></a> productions,
+            if present, otherwise from a fresh RDF <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>.
           </td>
         </tr>
       </tbody>
