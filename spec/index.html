@@ -965,6 +965,47 @@
       </p>
     </section>
 
+    <section id="tripleTerm">
+      <h4 id="tripleTerm" style="padding-bottom:0; margin-bottom:0;">Triple Terms</h4>
+
+      <p>Beginning the <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a> production
+        records the |curSubject| and |curPredicate|.
+        Finishing the <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a> production
+        and restores the recorded values of |curSubject| and |curPredicate|.</p>
+    </section>
+
+    <section id="reification">
+      <h4 style="padding-bottom:0; margin-bottom:0;">Reifications</h4>
+
+      <p>Beginning the <a href="#grammar-production-reification"><code>reification</code></a> production
+        records the |curSubject| and |curPredicate|.
+        |curSubject| is taken from the
+        <a href="#handle-reification"><code>reification</code></a> term constructor.
+        A new <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a> instance |TT|
+        is composed from
+        the <a href="#grammar-production-subject"><code>subject</code></a>,
+        <a href="#grammar-production-predicate"><code>predicate</code></a>, and
+        <a href="#grammar-production-object"><code>object</code></a> productions.
+        Finishing the <a href="#grammar-production-reification"><code>reification</code></a> production
+        yields the RDF triple |curSubject| <code>rdf:reifies</code> |TT|
+        and restores the recorded values of |curSubject| and |curPredicate|.</p>
+    </section>
+
+
+    <section id="annotation">
+      <h4 style="padding-bottom:0; margin-bottom:0;">Annotations</h4>
+
+      <p>Beginning the <a href="#grammar-production-annotation"><code>annotation</code></a> production
+        records the |curSubject| and |curPredicate|.
+        A new <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a> instance |TT|
+        is created using |curSubject| |curPredicate| |curObject|.
+        The identifier |TI| is taken from the
+        <a href="#handle-annotation"><code>annotation</code></a> term constructor.
+        Finishing the <a href="#grammar-production-annotation"><code>annotation</code></a> production
+        yields the RDF triple |TI| <code>rdf:reifies</code> |TT|
+        and restores the recorded values of |curSubject| and |curPredicate|.</p>
+    </section>
+
     <section id="propertyList">
       <h4 style="padding-bottom:0; margin-bottom:0;">Property Lists</h4>
 
