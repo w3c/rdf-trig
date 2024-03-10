@@ -788,17 +788,17 @@
         — A mapping from string to blank node.</li>
       <li id="curSubject">RDF_Term |curSubject|
         — The |curSubject| is bound to the
-        <a href="#grammar-production-subject"><code>subject</code></a>
-        and <a href="#grammar-production-qtSubject"><code>qtSubject</code></a> productions.</li>
-      <li id="curPredicate">RDF_Term |curPredicate|
-        — The |curPredicate| is bound to the
-        <a href="#grammar-production-verb"><code>verb</code></a> production.
-        If token matched was <a href="#cp-lowercase-a"><code title="latin-small-letter-a">a</code></a>, |curPredicate|
-        is bound to the IRI <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>.</li>
-      <li id="curObject">RDF_Term |curObject| —
+        <a href="#grammar-production-subject"><code>subject</code></a> production</li>
+      <li id="curPredicate"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curPredicate|
+        — The |curPredicate| is bound to
+        the <a href="#grammar-production-verb"><code>verb</code></a> production.
+        If token matched was <a href="#cp-lowercase-a"><code title="latin small letter A">a</code></a>,
+        |curPredicate| is bound to the IRI
+        <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>.</li>
+      <li id="curObject"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curObject| —
         The |curObject| is bound to the
         <a href="#grammar-production-object"><code>object</code></a> and
-        <a href="#grammar-production-qtObject"><code>qtObject</code></a> productions.</li>
+        <a href="#grammar-production-ttObject"><code>ttObject</code></a> productions.</li>
       <li id="curGraph">RDF_Term |curGraph| —
         The |curGraph| is bound to
         the label of the graph that is the destination of triples
@@ -806,9 +806,6 @@
         for the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a>.
       </li>
     </ul>
-    <p>Additionally, |curSubject|
-      can be bound to any RDF_Term
-      (including a <a>triple term</a>).</p>
   </section>
 
   <section  id="sec-parsing-terms">
