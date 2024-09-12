@@ -4,7 +4,7 @@ block                 ::=   triplesOrGraph
                         | triples2
                         | "GRAPH" labelOrSubject wrappedGraph
 triplesOrGraph        ::= labelOrSubject ( wrappedGraph | predicateObjectList '.' )
-                        | quotedTriple predicateObjectList '.'
+                        | reifiedTriple predicateObjectList? '.'
 triples2              ::= blankNodePropertyList predicateObjectList? '.'
                         | collection predicateObjectList '.'
 wrappedGraph          ::= '{' triplesBlock? '}'
@@ -15,13 +15,15 @@ prefixID              ::= '@prefix' PNAME_NS IRIREF '.'
 base                  ::= '@base' IRIREF '.'
 sparqlPrefix          ::=	"PREFIX" PNAME_NS IRIREF
 sparqlBase            ::=	"BASE" IRIREF
-triples               ::= subject predicateObjectList | blankNodePropertyList predicateObjectList?
+triples               ::= subject predicateObjectList
+                        | blankNodePropertyList predicateObjectList?
+                        | reifiedTriple predicateObjectList?
 predicateObjectList   ::= verb objectList (';' (verb objectList)? )*
-objectList            ::= object annotation? ( ',' object annotation? )*
+objectList            ::= object annotation ( ',' object annotation )*
 verb                  ::= predicate | 'a'
-subject               ::= iri | BlankNode | collection | quotedTriple
+subject               ::= iri | BlankNode | collection
 predicate             ::= iri
-object                ::= iri | BlankNode | collection | blankNodePropertyList | literal | quotedTriple
+object                ::= iri | BlankNode | collection | blankNodePropertyList | literal | tripleTerm | reifiedTriple
 literal               ::= RDFLiteral | NumericLiteral | BooleanLiteral
 blankNodePropertyList ::= '[' predicateObjectList ']'
 collection            ::= '(' object* ')'
@@ -33,10 +35,13 @@ String                ::= STRING_LITERAL_QUOTE | STRING_LITERAL_SINGLE_QUOTE
 iri                   ::= IRIREF | PrefixedName
 PrefixedName          ::= PNAME_LN | PNAME_NS
 BlankNode             ::= BLANK_NODE_LABEL | ANON
-quotedTriple          ::= '<<' qtSubject predicate qtObject '>>'
-qtSubject             ::=	iri | BlankNode | quotedTriple
-qtObject              ::=	iri | BlankNode | literal | quotedTriple
-annotation            ::= '{|' predicateObjectList '|}'
+reifier               ::= '~' (iri | BlankNode)?
+reifiedTriple         ::= '<<' (subject | reifiedTriple) verb object reifier? '>>'
+tripleTerm            ::= '<<(' ttSubject verb ttObject ')>>'
+ttSubject             ::=	iri | BlankNode
+ttObject              ::=	iri | BlankNode | literal | tripleTerm
+annotation            ::= (reifier | annotationBlock)*
+annotationBlock       ::= '{|' predicateObjectList '|}'
 
 @terminals
 
