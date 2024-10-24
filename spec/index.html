@@ -740,7 +740,7 @@
   </section>
 </section>
 
-<section id="sec-parsing">
+<section id="sec-parsing" class="algorithm">
   <h2>Parsing</h2>
   <p>The RDF Concepts and Abstract Syntax [[!RDF12-CONCEPTS]]
     specification defines four types of <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF term</a>:
@@ -782,6 +782,8 @@
       <li id="curSubject"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curSubject|
         — The |curSubject| is bound to the
         <a href="#grammar-production-subject"><code>subject</code></a>,
+        <a href="#grammar-production-rtSubject"><code>rtSubject</code></a>,
+        <a href="#grammar-production-ttSubject"><code>ttSubject</code></a>,
         <a href="#grammar-production-blankNodePropertyList"><code>blankNodePropertyList</code></a>,
         <a href="#grammar-production-collection"><code>collection</code></a>,
         <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a>, and
@@ -794,8 +796,16 @@
         is bound to the IRI <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>.</li>
       <li id="curObject"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curObject| —
         The |curObject| is bound to the
-        <a href="#grammar-production-object"><code>object</code></a> and
+        <a href="#grammar-production-object"><code>object</code></a>,
+        <a href="#grammar-production-ttObject"><code>rtObject</code></a>, and
         <a href="#grammar-production-ttObject"><code>ttObject</code></a> productions.</li>
+      <li id="curReifier"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curReifier| —
+        The |curReifier| is bound to the
+        <a href="#grammar-production-reifier"><code>reifier</code></a> and
+        <a href="#grammar-production-annotationBlock"><code>annotationBlock</code></a> productions.</li>
+      <li id="curTripleTerm"><a data-cite="RDF12-CONCEPTS#dfn-triple-term">Triple term</a> |curTripleTerm| —
+        The |curTripleTerm| is set in the <a href="#annotation">Annotations</a> constructor.
+      </li>
       <li id="curGraph">RDF_Term |curGraph| —
         The |curGraph| is bound to
         the label of the graph that is the destination of triples
@@ -846,8 +856,8 @@
         <tr id="handle-blankNodePropertyList"           ><td style="text-align:left;"            ><a class="type bNode"       href="#grammar-production-blankNodePropertyList"           ><code>blankNodePropertyList</code></a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node  </a></td><td>A blank node is generated. Note the rules for <code>blankNodePropertyList</code> in the next section.</td></tr>
         <tr id="handle-collection"                      ><td style="text-align:left;" rowspan="2"><a class="type bNode"       href="#grammar-production-collection"                      ><code>collection</code>         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-blank-node">  blank node  </a></td><td>For non-empty lists, a blank node is generated. Note the rules for <code>collection</code> in the next section.</td></tr>
         <tr id="handle-collection-IRI"                  ><td                                                                                                                                                                          ><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>For empty lists, the resulting IRI is <code>rdf:nil</code>. Note the rules for <code>collection</code> in the next section.</td></tr>
-        <tr id="handle-reifier"                         ><td style="text-align:left;"            ><a class="type reifier" href="#grammar-production-reifier"                              >reifier                         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">          IRI          </a>
-                                                                                                                                                                                                                                      | <a data-cite="RDF12-CONCEPTS#dfn-blank-node">   blank node   </a></td>
+        <tr id="handle-reifier"                         ><td style="text-align:left;"            ><a class="type reifier" href="#grammar-production-reifier"                              >reifier                         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">        IRI         </a>
+                                                                                                                                                                                                                                      | <a data-cite="RDF12-CONCEPTS#dfn-blank-node"> blank node  </a></td>
           <td>
             The |curReifier| is taken from <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">term</a>, which is taken from the matched
             <a href="#grammar-production-iri"><code>iri</code></a> production
@@ -974,9 +984,9 @@
         records the |curTripleTerm|.
         A new <a href="#grammar-production-tripleTerm"><code>tripleTerm</code></a> instance |curTripleTerm|
         is created using the
-        <a href="#grammar-production-subject"><code>subject</code></a>,
+        <a href="#grammar-production-rtSubject"><code>rtSubject</code></a>,
         <a href="#grammar-production-verb"><code>verb</code></a>, and
-        <a href="#grammar-production-object"><code>object</code></a> productions.
+        <a href="#grammar-production-rtObject"><code>rtObject</code></a> productions.
 
         Finishing the <a href="#grammar-production-reifiedTriple"><code>reifiedTriple</code></a> production,
         if the |curReifier| is not set, it is assigned a fresh RDF <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>;
