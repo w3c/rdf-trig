@@ -175,6 +175,11 @@
     and <a href="#sec-parsing" class="sectionRef"></a>.
   </p>
 
+  <section id="sec-version">
+    <h3>Version Announcement</h3>
+    <p>TriG uses the same version announcement mechanism as Turtle [[RDF12-TURTLE]].</p>
+  </section>
+
   <section id="sec-triple-statements">
     <h3>Triple Statements</h3>
     <p>As TriG is an extention of the Turtle language it allows for any constructs from the
@@ -301,6 +306,7 @@
     <pre id="ex-triple-term" class="example turtle" data-transform="updateExample"
          title="Triple Term">
       <!--
+      VERSION "1.2"
       PREFIX :    <http://www.example.org/>
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
@@ -381,8 +387,12 @@
     <h3>Comments</h3>
 
     <p>Comments in TriG start with a <a href="#cp-number-sign"><code title="number sign">#</code></a> outside an
-    <a href="#grammar-production-IRIREF"><code>IRIREF</code></a> or <a href="#grammar-production-String"><code>String</code></a>,
-    and continue to the end of line (marked by
+    <a href="#grammar-production-IRIREF"                          ><code>IRIREF</code>                          </a>,
+    <a href="#grammar-production-STRING_LITERAL_SINGLE_QUOTE"     ><code>STRING_LITERAL_SINGLE_QUOTE</code>     </a>,
+    <a href="#grammar-production-STRING_LITERAL_QUOTE"            ><code>STRING_LITERAL_QUOTE</code>            </a>,
+    <a href="#grammar-production-STRING_LITERAL_LONG_SINGLE_QUOTE"><code>STRING_LITERAL_LONG_SINGLE_QUOTE</code></a>, or
+    <a href="#grammar-production-STRING_LITERAL_LONG_QUOTE"       ><code>STRING_LITERAL_LONG_QUOTE</code>       </a>,
+     and continue to the end of line (marked by
     <a href="#cp-line-feed"><code title="line feed">LF</code></a>, or
     <a href="#cp-carriage-return"><code title="carriage return">CR</code></a>),
     or end of file if there is no end of line after the comment marker.
@@ -608,14 +618,15 @@
           Keywords in single quotes
           ('<code class="grammar-literal">@base</code>',
           '<code class="grammar-literal">@prefix</code>',
+          '<code class="grammar-version">@version</code>',
           '<code class="grammar-literal">a</code>',
-          '<code class="grammar-literal">true</code>',
+          '<code class="grammar-literal">true</code>', and
           '<code class="grammar-literal">false</code>')
           are case-sensitive.
           Keywords in quotation marks
           ("<code class="grammar-literal">BASE</code>",
-          "<code class="grammar-literal">PREFIX</code>",
-          "<code class="grammar-graph">GRAPH</code>")
+          "<code class="grammar-literal">PREFIX</code>"), and
+          "<code class="grammar-literal">VERSION</code>")
           are case-insensitive.
         </li>
         <li>
@@ -637,11 +648,12 @@
           In signed numbers, no white space is allowed between the sign and the number.
         </li>
         <li>
-          The strings '<a href="#grammar-production-prefixID"><code class="grammar-literal">@prefix</code></a>'
-          and '<a href="#grammar-production-base"><code class="grammar-literal">@base</code></a>'
+          The strings '<a href="#grammar-production-prefixID"><code class="grammar-literal">@prefix</code></a>',
+          '<a href="#grammar-production-base"><code class="grammar-literal">@base</code></a>', and
+          '<a href="#grammar-production-version"><code class="grammar-literal">@version</code></a>'
           match the pattern for <a href="#grammar-production-LANG_DIR"><code>LANG_DIR</code></a>,
-          though neither <code class="grammar-literal">prefix</code>
-          nor <code class="grammar-literal">base</code>
+          though neither <code class="grammar-literal">prefix</code>,
+          <code class="grammar-literal">base</code>, nor <code class="grammar-literal">version</code>
           are <a data-cite="?LANG-SUBTAG-REGISTRY#">registered language subtags</a>.
           This specification does not define whether a quoted literal
           followed by either of these tokens (e.g., <code>"A"@base</code>)
@@ -772,7 +784,7 @@
 
   <section id="sec-parsing-state">
     <h3>Parser State</h3>
-    <p>Parsing TriG requires a state of nine items:</p>
+    <p>Parsing TriG requires a state of ten items:</p>
 
     <ul>
       <li id="baseURI">IRI |baseURI|
@@ -821,6 +833,12 @@
         produced in parsing.  When undefined, triples are destined
         for the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a>.
       </li>
+      <li id="curVersion">`xsd:string` |curVersion| –
+        The RDF version used for parsing the document into <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">Triples</a>.
+        If specified as part of a <a href="#sec-mediaReg">Media Type</a>, the default value for |curVersion| is taken from the `version` parameter.
+        The only defined value is `"1.2"`. Parser behavior for other version values is undefined.
+        This specification does not define behavior if different versions are provided for |curVersion|.
+      </li>
     </ul>
 
     <p>Term Constructors can create a stack of these values indicated by
@@ -835,14 +853,14 @@
 
     <table id="tab-term-constructors" class="separated">
       <thead>
-        <tr>                                  <th>                                                                                                                                       production                            </th><th>                   type            </th><th>procedure</th></tr>
+        <tr>                                  <th>                                                                                                                                       production                            </th><th>                                              type            </th><th>procedure</th></tr>
       </thead>
       <tbody>
         <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          >IRIREF                          </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, after the <a href="#numeric">numeric escape sequences</a> are processed, to form the Unicode string of the IRI. <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI reference</a> resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
         <tr id="handle-PNAME_NS"                        ><td style="text-align:left;" rowspan="2"><a class="type string"      href="#grammar-production-PNAME_NS"                        >PNAME_NS                        </a></td><td><a href="#prefix">                             prefix      </a></td><td>When used in a <a href="#grammar-production-prefixID"><code>prefixID</code></a> or <a href="#grammar-production-sparqlPrefix"><code>sparqlPrefix</code></a> production, the <code>prefix</code> is the potentially empty Unicode string matching the first argument of the rule is a key into the <a href="#namespaces">namespaces map</a>.</td></tr>
         <tr id="handle-PNAME-IRI"                       >                                                                                                                                                                          <td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>When used in a <a href="#grammar-production-PrefixedName"><code>PrefixedName</code></a> production, the <code>iri</code> is the value in the <a href="#namespaces">namespaces map</a> corresponding to the first argument of the rule.</td></tr>
         <tr id="handle-PNAME_LN"                        ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PNAME_LN"                        >PNAME_LN                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>A potentially empty <a href="#prefix">prefix</a> is identified by the first sequence, <a href="#grammar-production-PNAME_NS"><code>PNAME_NS</code></a>. The <a href="#namespaces">namespaces map</a> <em class="rfc2119">MUST</em> have a corresponding <code>namespace</code>. The Unicode string of the IRI is formed by unescaping the <a href="#reserved">reserved characters</a> in the second argument, <a href="#grammar-production-PN_LOCAL"><code>PN_LOCAL</code></a>, and concatenating this onto the <code>namespace</code>.</td></tr>
-        <!-- tr id="handle-PrefixedName"                ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PrefixedName"                    >PrefixedName                    </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>.</td></tr -->
+        <tr id="handle-VersionSpecifier"                ><td style="text-align:left;"            ><a class="type literal"     href="#grammar-production-VersionSpecifier"                >VersionSpecifier                </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The |curVersion| is taken from a literal using the matched <a data-cite="RDF12-CONCEPTS#dfn-rdf-string">RDF string</a> lexical form and `xsd:string` datatype.</td></tr>
         <tr id="handle-STRING_LITERAL_SINGLE_QUOTE"     ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_SINGLE_QUOTE"     >STRING_LITERAL_SINGLE_QUOTE     </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-apostrophe"><code title="apostrophe">'</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
         <tr id="handle-STRING_LITERAL_QUOTE"            ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_QUOTE"            >STRING_LITERAL_QUOTE            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-quotation-mark"><code title="quotation mark">&quot;</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
         <tr id="handle-STRING_LITERAL_LONG_SINGLE_QUOTE"><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_SINGLE_QUOTE">STRING_LITERAL_LONG_SINGLE_QUOTE</a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-apostrophe"><code>'''</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the unicode string of a lexical form.</td></tr>
@@ -1137,7 +1155,7 @@
     <dt>Required parameters:</dt>
     <dd>None</dd>
     <dt>Optional parameters:</dt>
-    <dd>None</dd>
+    <dd><code>version</code> — this parameter is required when using RDF 1.2-specific features. If present, the value of <code>version</code> is always <code>"1.2"</code>.</dd>
 
     <dt>Encoding considerations:</dt>
     <dd>The syntax of TriG is expressed over code points in Unicode [[!UNICODE]]. The encoding is always UTF-8 [[!UTF-8]].</dd>
@@ -1221,6 +1239,13 @@
     <li>Added <a href="#triple-terms" class="sectionRef">Triple Terms</a> for representing 
       <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> in TriG.</li>
     <li>Removed the `NIL` terminal production from the grammar, which was unused.</li>
+    <li>Added <a href="#sec-version"></a> and parser
+      state and productions to announce the RDF version
+      associated with the input document.
+      Note that this also includes a provision that `@version` does not match
+      <a href="#grammar-production-LANG_DIR" class="type langDir"><code>LANG_DIR</code></a>;
+      the previous version of the grammar would allow such a match,
+      but would result in a literal with an ill-formed language tag according to [[BCP47]], and form an invalid literal.</li>
   </ul>
 </section>
 
