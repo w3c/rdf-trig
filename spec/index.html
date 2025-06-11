@@ -170,7 +170,7 @@
   Such a graph statement corresponds to the <a data-cite="RDF12-CONCEPTS#dfn-default-graph">Default Graph</a> of an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
 
   <p>
-    The construction of an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> from a TriG document is defined in
+    The construction of an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a> from a <a>TriG document</a> is defined in
     <a href="#sec-grammar" class="sectionRef"></a>
     and <a href="#sec-parsing" class="sectionRef"></a>.
   </p>
@@ -366,11 +366,14 @@
 <section id="sec-grammar">
   <h2>TriG Grammar</h2>
 
-  <p>A TriG document is a Unicode [[!UNICODE]] character string
-    encoded in UTF-8.
-    Unicode characters only in the range U+0000 to U+10FFFF inclusive are
-    allowed.
-  </p>
+  <p>A <a>TriG document</a> is an <a data-cite="RDF12-CONCEPTS#dfn-rdf-string">RDF string</a>
+    encoded in UTF-8 [[!RFC3629]].
+    Only <a data-cite="I18N-GLOSSARY#dfn-scalar-value" class="lint-ignore">Unicode scalar values</a>,
+    in the ranges <code class="codepoint">U+0000</code> to <code class="codepoint">U+D7FF</code> 
+    and <code class="codepoint">U+E000</code> to <code class="codepoint">U+10FFFF</code>,
+    are allowed. This excludes 
+    <a data-cite="I18N-GLOSSARY#dfn-surrogate" class="lint-ignore">surrogate code points</a>,
+    range <code class="codepoint">U+D800</code> to <code class="codepoint">U+DFFF</code>.
 
   <section id="sec-grammar-ws">
     <h3>White Space</h3>
@@ -429,12 +432,33 @@
   <section id="sec-escapes">
     <h3>Escape Sequences</h3>
 
-    <p>There are three forms of escapes used in TriG documents:</p>
+    <p>There are three forms of escapes used in <a>TriG document</a>s:</p>
 
     <ul>
       <li>
-        <p>
-          <em id="numeric">numeric escape sequences</em> represent Unicode code points:
+        <p id="numeric-escape-tests1" data-tests="
+          ../../rdf11/rdf-trig/index.html#IRI_with_four_digit_numeric_escape,
+          ../../rdf11/rdf-trig/index.html#IRI_with_eight_digit_numeric_escape,
+          ../../rdf11/rdf-trig/index.html#literal_with_numeric_escape4,
+          ../../rdf11/rdf-trig/index.html#literal_with_numeric_escape8">
+          A <dfn>numeric escape sequence</dfn> represents the value of
+          a <a data-cite="I18N-GLOSSARY#dfn-code-point">Unicode code point</a>.
+        </p>
+        <p id="numeric-escape-tests2" data-tests="
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-01,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-02,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-03,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-04,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-05,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-06,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-07,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-08,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-09,
+          ../../rdf11/rdf-trig/index.html#turtle-syntax-bad-numeric-escape-10">
+          A <a>numeric escape sequence</a> MUST NOT produce a code point value
+          in the range <code class="codepoint">U+D800</code> to <code class="codepoint">U+DFFF</code>,
+          which is the range for 
+          Unicode <a data-cite="I18N-GLOSSARY#dfn-surrogate" class="lint-ignore">surrogates</a>.
         </p>
 
         <table id="tab-uchar">
@@ -451,7 +475,8 @@
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a></td>
               <td>A <a data-cite="I18N-GLOSSARY#dfn-code-point">Unicode code point</a>
-                in the range <code class="codepoint">U+0000</code> to <code class="codepoint">U+FFFF</code> inclusive
+                in the ranges <code class="codepoint">U+0000</code> to <code class="codepoint">U+D7FF</code>
+                and <code class="codepoint">U+E000</code> to <code class="codepoint">U+D7FF</code>,
                 corresponding to the value encoded by the four hexadecimal digits interpreted
                 from most significant to least significant digit.</td>
             </tr>
@@ -466,7 +491,9 @@
                 <a href="#grammar-production-HEX"><code>hex</code></a>
                 <a href="#grammar-production-HEX"><code>hex</code></a></td>
               <td>A <a data-cite="I18N-GLOSSARY#dfn-code-point">Unicode code point</a>
-                in the range <code class="codepoint">U+0000</code> to <code class="codepoint">U+0010FFFF</code> inclusive
+                in the ranges <code class="codepoint">U+0000</code> to
+                <code class="codepoint">U+D7FF</code>
+                and <code class="codepoint">U+E000</code> to <code class="codepoint">U+10FFFF</code>,
                 corresponding to the value encoded by the eight hexadecimal digits
                 interpreted from most significant to least significant digit.</td>
             </tr>
@@ -474,18 +501,19 @@
         </table>
 
         <p>where <a href="#grammar-production-HEX"><code>hex</code></a> is a hexadecimal character</p>
-
-        <blockquote>
-          <p><span style="font-family: monospace; font-size: 85%;">
-            <a href="#grammar-production-HEX">HEX</a>
-            ::= [0-9] | [A-F] | [a-f]</span></p>
-        </blockquote>
+        <p style="margin-left: 2em"><code><a href="#grammar-production-HEX"><code>HEX</code></a> ::= [0-9] | [A-F] | [a-f]</code></p>
       </li>
 
       <li>
-        <p>
-          <em id="string">string escape sequences</em> represent the characters
-          traditionally escaped in string literals:
+        <p id="echar-tests" data-tests="
+          ../../rdf11/rdf-trig/index.html#literal_with_escaped_CHARACTER_TABULATION,
+          ../../rdf11/rdf-trig/index.html#literal_with_escaped_BACKSPACE,
+          ../../rdf11/rdf-trig/index.html#literal_with_escaped_LINE_FEED,
+          ../../rdf11/rdf-trig/index.html#literal_with_escaped_CARRIAGE_RETURN,
+          ../../rdf11/rdf-trig/index.html#literal_with_escaped_FORM_FEED,
+          ../../rdf11/rdf-trig/index.html#LITERAL_LONG2_with_1_squote,
+          ../../rdf11/rdf-trig/index.html#literal_with_REVERSE_SOLIDUS">
+          A <dfn>string escape sequence</dfn> represents a character traditionally escaped in string literals:
         </p>
 
         <table id="tab-echar">
@@ -540,11 +568,12 @@
       </li>
 
       <li>
-        <p>
-          <em id="reserved">reserved character escape sequences</em> consist of
-          a <a href="#cp-backslash"><code title="backslash">\</code></a>
-          followed by one of <code>~.-!$&amp;'()*+,;=/?#@%_</code>
-          and represent the character to the right of the <a href="#cp-backslash"><code title="backslash">\</code></a>.
+        <p id="reserved-char-tests" data-tests="
+          ../../rdf11/rdf-trig/index.html#reserved_escaped_localName">
+          A <dfn>reserved character escape sequence</dfn> consists of a
+          <a href="#cp-backslash"><code title="backslash">\</code></a>
+          followed by one of these characters <code>~.-!$&amp;'()*+,;=/?#@%_</code>,
+          and represents the character to the right of the <a href="#cp-backslash"><code title="backslash">\</code></a>.
         </p>
       </li>
 
@@ -555,9 +584,9 @@
       <thead>
         <tr>
           <th></th>
-          <th><a href="#numeric">numeric<br/>escapes</a></th>
-          <th><a href="#string">string<br/>escapes</a></th>
-          <th><a href="#reserved">reserved character<br/>escapes</a></th>
+          <th><a data-lt="numeric escape sequence">numeric<br/>escapes</a></th>
+          <th><a data-lt="string escape sequence">string<br/>escapes</a></th>
+          <th><a data-lt="reserved character escape sequence">reserved character<br/>escapes</a></th>
         </tr>
       </thead>
       <tbody>
@@ -612,7 +641,7 @@
       <ol>
         <li>A <a data-cite="RDF12-CONCEPTS#dfn-blank-node-identifier">blank node identifier</a> represents the same
           <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>
-          throughout the TriG document.
+          throughout the <a>TriG document</a>.
         </li>
         <li>
           Keywords in single quotes
@@ -798,8 +827,8 @@
         is substituted with the namespace.
         Note that the prefix may be an empty string,
         per the <a href="#grammar-production-PNAME_NS"><code>PNAME_NS</code></a> production: <code>PN_PREFIX? ":"</code>.</li>
-      <li id="bnodeLabels">Map[string -&gt; <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>] |bnodeLabels|
-        — A mapping from string to blank node.</li>
+      <li id="bnodeLabels">Map[<span class="type string">string</span> -&gt; <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>] |bnodeLabels|
+        — A mapping from a string to a blank node.</li>
       <li id="curSubject"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curSubject|
         — The |curSubject| is bound to the
         <a href="#grammar-production-subject"><code>subject</code></a>,
@@ -856,15 +885,15 @@
         <tr>                                  <th>                                                                                                                                       production                            </th><th>                                              type            </th><th>procedure</th></tr>
       </thead>
       <tbody>
-        <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          >IRIREF                          </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, after the <a href="#numeric">numeric escape sequences</a> are processed, to form the Unicode string of the IRI. <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI reference</a> resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
+        <tr id="handle-IRIREF"                          ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-IRIREF"                          >IRIREF                          </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>The characters between "&lt;" and "&gt;" are taken, after the <a>numeric escape sequences</a> are processed, to form the Unicode string of the IRI. <a data-cite="RDF12-CONCEPTS#dfn-relative-iri">Relative IRI reference</a> resolution is performed per <a href="#sec-iri-references" class="sectionRef"></a>.</td></tr>
         <tr id="handle-PNAME_NS"                        ><td style="text-align:left;" rowspan="2"><a class="type string"      href="#grammar-production-PNAME_NS"                        >PNAME_NS                        </a></td><td><a href="#prefix">                             prefix      </a></td><td>When used in a <a href="#grammar-production-prefixID"><code>prefixID</code></a> or <a href="#grammar-production-sparqlPrefix"><code>sparqlPrefix</code></a> production, the <code>prefix</code> is the potentially empty Unicode string matching the first argument of the rule is a key into the <a href="#namespaces">namespaces map</a>.</td></tr>
         <tr id="handle-PNAME-IRI"                       >                                                                                                                                                                          <td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>When used in a <a href="#grammar-production-PrefixedName"><code>PrefixedName</code></a> production, the <code>iri</code> is the value in the <a href="#namespaces">namespaces map</a> corresponding to the first argument of the rule.</td></tr>
-        <tr id="handle-PNAME_LN"                        ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PNAME_LN"                        >PNAME_LN                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>A potentially empty <a href="#prefix">prefix</a> is identified by the first sequence, <a href="#grammar-production-PNAME_NS"><code>PNAME_NS</code></a>. The <a href="#namespaces">namespaces map</a> <em class="rfc2119">MUST</em> have a corresponding <code>namespace</code>. The Unicode string of the IRI is formed by unescaping the <a href="#reserved">reserved characters</a> in the second argument, <a href="#grammar-production-PN_LOCAL"><code>PN_LOCAL</code></a>, and concatenating this onto the <code>namespace</code>.</td></tr>
+        <tr id="handle-PNAME_LN"                        ><td style="text-align:left;"            ><a class="type IRI"         href="#grammar-production-PNAME_LN"                        >PNAME_LN                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-iri">         IRI         </a></td><td>A potentially empty <a href="#prefix">prefix</a> is identified by the first sequence, <a href="#grammar-production-PNAME_NS"><code>PNAME_NS</code></a>. The <a href="#namespaces">namespaces map</a> <em class="rfc2119">MUST</em> have a corresponding <code>namespace</code>. The Unicode string of the IRI is formed by unescaping the <a data-lt="reserved character escape sequence">reserved characters</a> in the second argument, <a href="#grammar-production-PN_LOCAL"><code>PN_LOCAL</code></a>, and concatenating this onto the <code>namespace</code>.</td></tr>
         <tr id="handle-VersionSpecifier"                ><td style="text-align:left;"            ><a class="type literal"     href="#grammar-production-VersionSpecifier"                >VersionSpecifier                </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The |curVersion| is taken from a literal using the matched <a data-cite="RDF12-CONCEPTS#dfn-rdf-string">RDF string</a> lexical form and `xsd:string` datatype.</td></tr>
-        <tr id="handle-STRING_LITERAL_SINGLE_QUOTE"     ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_SINGLE_QUOTE"     >STRING_LITERAL_SINGLE_QUOTE     </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-apostrophe"><code title="apostrophe">'</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
-        <tr id="handle-STRING_LITERAL_QUOTE"            ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_QUOTE"            >STRING_LITERAL_QUOTE            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-quotation-mark"><code title="quotation mark">&quot;</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
-        <tr id="handle-STRING_LITERAL_LONG_SINGLE_QUOTE"><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_SINGLE_QUOTE">STRING_LITERAL_LONG_SINGLE_QUOTE</a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-apostrophe"><code>'''</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the unicode string of a lexical form.</td></tr>
-        <tr id="handle-STRING_LITERAL_LONG_QUOTE"       ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_QUOTE"       >STRING_LITERAL_LONG_QUOTE.      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-quote"><code>"""</code></a>s are taken, with <a href="#numeric">numeric</a> and <a href="#string">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
+        <tr id="handle-STRING_LITERAL_SINGLE_QUOTE"     ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_SINGLE_QUOTE"     >STRING_LITERAL_SINGLE_QUOTE     </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-apostrophe"><code title="apostrophe">'</code></a>s are taken, with <a data-lt="numeric escape sequence">numeric</a> and <a data-lt="string escape sequence">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
+        <tr id="handle-STRING_LITERAL_QUOTE"            ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_QUOTE"            >STRING_LITERAL_QUOTE            </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-quotation-mark"><code title="quotation mark">&quot;</code></a>s are taken, with <a data-lt="numeric escape sequence">numeric</a> and <a data-lt="string escape sequence">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
+        <tr id="handle-STRING_LITERAL_LONG_SINGLE_QUOTE"><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_SINGLE_QUOTE">STRING_LITERAL_LONG_SINGLE_QUOTE</a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-apostrophe"><code>'''</code></a>s are taken, with <a data-lt="numeric escape sequence">numeric</a> and <a data-lt="string escape sequence">string</a> escape sequences unescaped, to form the unicode string of a lexical form.</td></tr>
+        <tr id="handle-STRING_LITERAL_LONG_QUOTE"       ><td style="text-align:left;"            ><a class="type lexicalForm" href="#grammar-production-STRING_LITERAL_LONG_QUOTE"       >STRING_LITERAL_LONG_QUOTE.      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-lexical-form">lexical form</a></td><td>The characters between the outermost <a href="#cp-triple-quote"><code>"""</code></a>s are taken, with <a data-lt="numeric escape sequence">numeric</a> and <a data-lt="string escape sequence">string</a> escape sequences unescaped, to form the Unicode string of a lexical form.</td></tr>
         <tr id="handle-LANG_DIR"                        ><td style="text-align:left;"            ><a class="type langDir"     href="#grammar-production-LANG_DIR"                        >LANG_DIR                        </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a></td><td>The characters following the <a href="#cp-at-sign"><code title="at sign">@</code></a> form the <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> and optionally the <a data-cite="RDF12-CONCEPTS#dfn-base-direction">initial text direction</a>, if the matched characters include <a href="#cp-hyphen-hyphen"><code>--</code></a>.</td></tr>
         <tr id="handle-RDFLiteral"                      ><td style="text-align:left;"            ><a class="type literal"     href="#grammar-production-RDFLiteral"                      >RDFLiteral                      </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the first rule argument, <a href="#grammar-production-String"><code>String</code></a>. If the <code>'^^' iri</code> rule is matched, the <a data-cite="RDF12-CONCEPTS#dfn-datatype-iri">datatype IRI</a> is derived from the <code>iri</code>, and the literal has no language tag. If the <a href="#grammar-production-LANG_DIR" class="type langDir"><code>LANG_DIR</code></a> rule is matched, the <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a> and <a data-cite="RDF12-CONCEPTS#dfn-base-direction">initial text direction</a> are taken from <a href=#handle-LANG_DIR class="type langDir"><code>LANG_DIR</code></a>. If there is no <a data-cite="RDF12-CONCEPTS#dfn-base-direction">initial text direction</a>, the datatype is <code>rdf:langString</code>. If there is an <a data-cite="RDF12-CONCEPTS#dfn-base-direction">initial text direction</a>, the datatype is <code>rdf:dirLangString</code>. If neither matched, the datatype is <code>xsd:string</code>, and the literal has no language tag.</td></tr>
         <tr id="handle-INTEGER"                         ><td style="text-align:left;"            ><a class="type integer"     href="#grammar-production-INTEGER"                         >INTEGER                         </a></td><td><a data-cite="RDF12-CONCEPTS#dfn-literal">     literal     </a></td><td>The literal has a lexical form of the input string, and a datatype of <code>xsd:integer</code>.</td></tr>
@@ -914,7 +943,7 @@
   <section id="sec-parsing-triples">
     <h3>RDF Triples Construction</h3>
     <p>
-      A TriG document defines an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF Dataset</a>
+      A <a>TriG document</a> defines an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF Dataset</a>
       composed of one <a data-cite="RDF12-CONCEPTS#dfn-default-graph">default graph</a> and zero or
       more <a data-cite="RDF12-CONCEPTS#dfn-named-graph">named graphs</a>.
       Each graph is composed of a set of <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">RDF triples</a>.
