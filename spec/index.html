@@ -165,7 +165,18 @@
   RDF Concepts and Abstract Syntax document
   [[RDF12-CONCEPTS]]. TriG is an extension of
   Turtle [[RDF12-TURTLE]], extended
-  to support representing a complete <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.
+  to support representing a complete <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.</p>
+
+  <p>This specification extends the original TriG syntax, as defined in [[[TRIG]]] [[TRIG]],
+  to support the new features introduced by [[[RDF12-CONCEPTS]]] [[RDF12-CONCEPTS]].
+  This extension is fully backward compatible:
+  any document complying with the old version complies with the new version, and parses to the same graph.
+  Furthermore, any document complying with the new version and containing only RDF 1.1 features is also compliant with the older version
+  (with the exception of the `VERSION` directive; see <a href="#sec-version"></a>).
+  Finally, none of the new syntactic constructs are valid in the old syntax.
+  This means that any TriG document using RDF 1.2 features does not
+  comply with the previous version of this specification and cannot be
+  interpreted as a different graph under it.</p>
 </section>
 
 <section id="sec-trig-intro" class="informative">
