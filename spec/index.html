@@ -332,31 +332,12 @@
 
   </section>
 
-  <section id="triple-terms">
-    <h3>Triple Terms</h3>
-
-    <p>TriG shares the same syntax for representing <a data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a>
-      as Turtle, including <a data-cite="RDF12-TURTLE#reifying-triples">Reifying Triples</a>
-      and the <a data-cite="RDF12-TURTLE#annotation-syntax">Annotation Syntax</a>.</p>
-
-    <pre id="ex-triple-term" class="example turtle" data-transform="updateExample"
-         title="Triple Term">
-      <!--
-      VERSION "1.2"
-      PREFIX :    <http://www.example.org/>
-      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-                             _:e38  :familyName  "Smith" .
-      _:anno rdf:reifies <<( _:e38  :jobTitle    "Designer" )>> .
-                             _:anno :accordingTo _:e22 .
-      -->
-    </pre>
-
-  </section>
 
   <section id="other-terms">
     <h3>Other Terms</h3>
-    <p>All other terms and directives come from Turtle.</p>
+    <p>All other terms, syntax forms, and directives come from
+      <a data-cite="RDF12-TURTLE#language-features" class="sectionRef">RDF Turtle</a>.
+    </p>
 
     <section id="terms-blanks-nodes">
       <h4>Special Considerations for Blank Nodes</h4>
