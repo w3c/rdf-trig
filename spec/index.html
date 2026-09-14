@@ -67,18 +67,7 @@
     };
   </script>
 
- <style>
-    /* Style Turtle script blocks to be visable */
-    pre.example script {
-        display:block;
-    }
-    .separated { border-collapse:collapse; }
-    .separated thead tr th { border:1px solid black; padding: .2em; min-width: 10vw }
-    .separated tbody tr td { border:1px solid black; text-align: center; min-width: 10vw }
-    .separated tbody tr td.r { text-align: right; padding: .5em; }
-    .separated tbody tr td:first-child,
-    .separated tbody tr td:last-child {text-align: left; padding: .5em; }
-    .separated.last-center tbody tr td:last-child {text-align: center; padding: .5em; }
+  <style>
     .grammar td {
       font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
       font-size: .9em;
@@ -95,33 +84,8 @@
       margin-top: 1em;
     }
     .grammar_comment { color: #A52A2A; font-style: italic; }
-    .hl-bold { font-weight: bold; color: #0a3; }
     code { color: #ff4500; }  /* Old W3C Style */
     var { color: #ff4500; }
-    abbr[title] {text-decoration: none;}
-    @media (max-width: 850px) {
-        table th, table td { font-size: 12px; padding: 3px 4px;}
-    }     
-    @media (max-width: 767px) {
-      table { word-break: normal; overflow-wrap: anywhere; }
-      .separated thead tr th { border:1px solid black; padding: .2em; min-width: 10vw }
-      .separated thead tr th:nth-child(2) { word-break: break-all; }
-      .separated tbody tr td:nth-child(2) {padding: 3px 2px;}
-      .separated tbody tr td:nth-child(3) {padding: 3px 2px;}
-      .separated tbody tr td { border:1px solid black; text-align: center; min-width: 10vw }
-      table.ex, .ex th, .ex td { border: none; padding: 0; }
-      table.ex { font-size: 1.4vw; }
-      .separated tbody tr td:first-child, .separated tbody tr th:first-child {max-width: 220px; overflow-wrap: anywhere;}
-    }
-    table.simple { border-collapse:collapse;}
-    table.simple th, table.simple td  { border:1px solid black; padding:0.2em; }
-
-    table.cp-definitions { border-collapse:collapse; }
-
-    table.cp-definitions,
-    table.cp-definitions th { text-align: center; padding:0.2em; padding-left: 0.3em; padding-right: 0.3em; }
-    table.cp-definitions td { border: 0px solid black; padding: 0.2em; padding-left: 0.3em; padding-right: 0.3em; }
-    table.cp-definitions td:nth-child(2) { text-align: center; }
 
     .term2escape-yes { background-color: lightgreen; }
     .darkmode .term2escape-yes { background-color: darkgreen; }
@@ -497,7 +461,7 @@
           Unicode <a data-cite="I18N-GLOSSARY#dfn-surrogate" class="lint-ignore">surrogates</a>.
         </p>
 
-        <table id="tab-uchar">
+        <table id="tab-uchar" class="data">
           <thead>
             <tr>
               <th>Escape sequence</th>
@@ -552,7 +516,7 @@
           A <dfn>string escape sequence</dfn> represents a character traditionally escaped in string literals:
         </p>
 
-        <table id="tab-echar">
+        <table id="tab-echar" class="data">
           <thead>
             <tr>
               <th>Escape sequence</th>
@@ -615,7 +579,7 @@
 
     </ul>
 
-    <table id="term2escape" class="separated last-center">
+    <table id="term2escape" class="data">
       <caption>Context where each kind of escape sequence can be used</caption>
       <thead>
         <tr>
@@ -738,7 +702,7 @@
       table describes specific characters and sequences used throughout this document.</p>
 
     <!-- Selected unicode character descriptions, taken from https://en.wikipedia.org/wiki/List_of_Unicode_characters -->
-    <table class="cp-definitions">
+    <table class="data">
       <thead>
         <tr><th>Code</th><th>Glyph</th><th>Description</th></tr>
       </thead>
@@ -916,7 +880,7 @@
     <p>This table maps productions and lexical tokens to <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF terms</a>
       or components of <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF terms</a> listed in <a href="#sec-parsing" class="sectionRef"></a>:</p>
 
-    <table id="tab-term-constructors" class="separated">
+    <table id="tab-term-constructors" class="data">
       <thead>
         <tr>                                  <th>                                                                                                                                       production                            </th><th>                                              type            </th><th>procedure</th></tr>
       </thead>
