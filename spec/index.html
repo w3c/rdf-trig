@@ -339,6 +339,18 @@
     <p>The media type of TriG is <code>application/trig</code>.
       The content encoding of TriG content is always UTF-8.</p>
   </section>
+
+   <section id="future-proof">
+    <h2>Future-proofness of TriG</h2>
+
+    <p>Any future evolution of the TriG format, if it reuses the same media type,
+     MUST require the use of a version directive
+     (either <a href="#grammar-production-version">`@version`</a> or <a href="#grammar-production-sparqlVersion">`VERSION`</a>)
+     with a version label posterior to `1.2`,
+     for any document that is not strictly compliant with TriG 1.2.
+     This will allow parsers to gracefully handle more recent features that they do not support.
+    </p>
+   </section>
 </section>
 
 <section id="sec-grammar">
