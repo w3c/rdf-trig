@@ -106,7 +106,7 @@
     <a data-cite="RDF12-CONCEPTS#dfn-object">object</a> of another
     <a data-cite="RDF12-CONCEPTS#dfn-rdf-triple">triple</a>,
     making it possible to make statements about other statements.
-    RDF 1.2 TriG also adds shares
+    RDF 1.2 TriG also shares
     <a data-cite="RDF12-CONCEPTS#dfn-dir-lang-string">directional language-tagged strings</a>
     with [[RDF12-TURTLE]].</p>
 
@@ -117,7 +117,7 @@
 
 <section id='sotd' class="updateable-rec">
   <p>This document is part of the RDF 1.2 document suite.
-  TriG is intended the meet the charter requirement of the
+  TriG is intended to meet the charter requirement of the
   RDF &amp; SPARQL Working Group to
   define an RDF syntax for multiple graphs. TriG is an extension of the
   Turtle
@@ -854,7 +854,7 @@
          productions.</li>
       <li id="curPredicate">RDF_Term |curPredicate|
         — The |curPredicate| is bound to the
-        the <a href="#grammar-production-verb"><code>verb</code></a> production.
+        <a href="#grammar-production-verb"><code>verb</code></a> production.
         If token matched was <a href="#cp-lowercase-a"><code title="latin-small-letter-a">a</code></a>, |curPredicate|
         is bound to the IRI <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>.</li>
       <li id="curObject"><a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF Term</a> |curObject| —
@@ -1059,7 +1059,7 @@
         eval/index.html#trig12-annotation-12">
         Beginning the <a href="#grammar-production-reifier"><code>reifier</code></a> production,
         the |curReifier| is taken from the <a href="#handle-reifier"><code>reifier</code></a> term constructor.
-        Then yield the the RDF triple |curReifier| <code>rdf:reifies</code> |curTripleTerm|.</p>
+        Then yield the RDF triple |curReifier| <code>rdf:reifies</code> |curTripleTerm|.</p>
     </section>
 
     <section id="reifiedTriple">
@@ -1087,7 +1087,7 @@
         it next yields the RDF triple |curReifier| <code>rdf:reifies</code> |curTripleTerm|,
         and then restores the recorded value of the |curTripleTerm|.
         The node produced by matching <a href="#grammar-production-reifiedTriple"><code>reifiedTriple</code></a>
-        is the the |curReifier|.</p>
+        is the |curReifier|.</p>
     </section>
 
     <section id="annotation">
